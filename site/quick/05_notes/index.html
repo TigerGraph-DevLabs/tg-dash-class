@@ -1,0 +1,1645 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+      
+      
+        <link rel="canonical" href="https://advit-tg.github.io/dash-class/quick/05_notes/">
+      
+      
+        <meta name="author" content="Advit Deepak">
+      
+      <link rel="shortcut icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-5.5.3">
+    
+    
+      
+        <title>Navigation - Navbars, Sidebars - TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e584d62f.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cef4c379.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#ff7043">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+  
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.addEventListener("click", ev => {
+        if (ev.target instanceof HTMLElement) {
+          var el = ev.target.closest("a[href^=http]")
+          if (el)
+            ga("send", "event", "outbound", "click", el.href)
+        }
+      })
+    })
+  </script>
+
+    
+  
+  
+    
+  
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Navigation - Navbars, Sidebars">
+  <meta property="og:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta property="og:url" content="https://advit-tg.github.io/dash-class/quick/05_notes/">
+  <meta property="og:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@squidfunk">
+  <meta name="twitter:creator" content="@squidfunk">
+  <meta name="twitter:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Navigation - Navbars, Sidebars">
+  <meta name="twitter:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta name="twitter:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <link rel="stylesheet" href="../../assets/stylesheets/overrides.011ebae6.min.css">
+
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#navbars-sidebars" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-announce">
+          <div class="md-announce__inner md-grid md-typeset">
+            
+  <a href="https://discord.gg/F2c9b9v">
+    Join TigerGraph's <strong>developer chat</strong> on
+    <span class="twemoji">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+    </span>
+  </a>
+
+          </div>
+        </aside>
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-header-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Navigation - Navbars, Sidebars
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../intro/A_01_devoid-of-dash/" class="md-tabs__link">
+          Why Dashboard?
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../01_notes/" class="md-tabs__link md-tabs__link--active">
+          Quick Start
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../learn/01_installation-island/" class="md-tabs__link">
+          Adventure
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../examples/" class="md-tabs__link">
+          Examples
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../resources/" class="md-tabs__link">
+          Resources
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../community/" class="md-tabs__link">
+          Community
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Why Dashboard?
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Why Dashboard?" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Why Dashboard?
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_01_devoid-of-dash/" title="Devoid of Dash" class="md-nav__link">
+      Devoid of Dash
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_02_getting-started/" title="Trusty Toolbox" class="md-nav__link">
+      Trusty Toolbox
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Quick Start
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Quick Start
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../01_notes/" title="Installation, First Dash App" class="md-nav__link">
+      Installation, First Dash App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../02_notes/" title="Plotly, Dash, Styling Elements" class="md-nav__link">
+      Plotly, Dash, Styling Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../03_notes/" title="TigerGraph (pyTG, queries) 🐯" class="md-nav__link">
+      TigerGraph (pyTG, queries) 🐯
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../04_notes/" title="Multi-Page Layout, Callbacks" class="md-nav__link">
+      Multi-Page Layout, Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Navigation - Navbars, Sidebars
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Navigation - Navbars, Sidebars" class="md-nav__link md-nav__link--active">
+      Navigation - Navbars, Sidebars
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ch-09-navbars" class="md-nav__link">
+    Ch 09 - Navbars
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-navbar-layout" class="md-nav__link">
+    Creating Navbar Layout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-navbar-elements" class="md-nav__link">
+    Adding Navbar Elements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ch-10-sidebars" class="md-nav__link">
+    Ch 10 - Sidebars
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-sidebar-layout" class="md-nav__link">
+    Creating Sidebar Layout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-sidebar-elements" class="md-nav__link">
+    Adding Sidebar Elements
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../06_notes/" title="Misc. Elements, Deployment" class="md-nav__link">
+      Misc. Elements, Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Adventure
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Adventure" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Adventure
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/01_installation-island/" title="Ch 01 - Installation Island" class="md-nav__link">
+      Ch 01 - Installation Island
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/02_setup-sea/" title="Ch 02 - Sailing through Setup Sea" class="md-nav__link">
+      Ch 02 - Sailing through Setup Sea
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/03_port-plotly/" title="Ch 03 - Presenting Port Plotly" class="md-nav__link">
+      Ch 03 - Presenting Port Plotly
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/04_dash-delta/" title="Ch 04 - Dash's Delta" class="md-nav__link">
+      Ch 04 - Dash's Delta
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/05_sheriff-styles/" title="Ch 05 - Sheriff Styles" class="md-nav__link">
+      Ch 05 - Sheriff Styles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/06_tigergraph-tundra/" title="Ch 06 - The TigerGraph Tundra" class="md-nav__link">
+      Ch 06 - The TigerGraph Tundra
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/07_multi-monster/" title="Ch 07 - The Multi-Page Monsters" class="md-nav__link">
+      Ch 07 - The Multi-Page Monsters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/08_callback-cliff/" title="Ch 08 - Confronted by Callbacks" class="md-nav__link">
+      Ch 08 - Confronted by Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/09_northern-navbars/" title="Ch 09 - Northern Navbars" class="md-nav__link">
+      Ch 09 - Northern Navbars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/10_southern-sidebars/" title="Ch 10 - Southern Sidebars" class="md-nav__link">
+      Ch 10 - Southern Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/11_elysium-elements/" title="Ch 11 - Elysium of Elements" class="md-nav__link">
+      Ch 11 - Elysium of Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../learn/12_destination-deployment/" title="Ch 12 - Destination Deployment" class="md-nav__link">
+      Ch 12 - Destination Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Examples
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Examples" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../examples/" title="Exquisite Examples" class="md-nav__link">
+      Exquisite Examples
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Resources
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Resources" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Resources
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../resources/" title="Resources" class="md-nav__link">
+      Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Community
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Community" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Community
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../community/" title="Get Connected" class="md-nav__link">
+      Get Connected
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ch-09-navbars" class="md-nav__link">
+    Ch 09 - Navbars
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-navbar-layout" class="md-nav__link">
+    Creating Navbar Layout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-navbar-elements" class="md-nav__link">
+    Adding Navbar Elements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ch-10-sidebars" class="md-nav__link">
+    Ch 10 - Sidebars
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-sidebar-layout" class="md-nav__link">
+    Creating Sidebar Layout
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-sidebar-elements" class="md-nav__link">
+    Adding Sidebar Elements
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+  
+                
+                
+                  
+                
+                
+                <h1 id="navbars-sidebars">Navbars, Sidebars<a class="headerlink" href="#navbars-sidebars" title="Permanent link">&para;</a></h1>
+<h2 id="ch-09-navbars">Ch 09 - Navbars<a class="headerlink" href="#ch-09-navbars" title="Permanent link">&para;</a></h2>
+<details class="info"><summary>Creating Navbar Layout</summary><p>In the last two chapters, we learned how to navigate across the multiple pages of our dashboard.
+However, our current system is a little bit clunky. One possible way to fix this is by utilizing a nabvar...</p>
+<h2 id="creating-navbar-layout">Creating Navbar Layout<a class="headerlink" href="#creating-navbar-layout" title="Permanent link">&para;</a></h2>
+<p>Adding a <strong>navbar</strong> to our dashboard allows for <font color='#DD6E0F'>easier navigation, providing a
+fixed, non-changing area of our app</font> which can be used to access other pages.
+In the previous chapter, we implemented a <strong>dropdown</strong> to navigate across pages.
+A navbar is as simple as <font color='#DD6E0F'><em>wrapping this dropdown element into a</em> <code>dbc.Navbar()</code> <em>component</em>!</font></p>
+<p>Let's start with a simple example using  <code>dbc.Navbarsimple()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">navbar</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">NavbarSimple</span><span class="p">([</span>
+      <span class="n">dbc</span><span class="o">.</span><span class="n">NavItem</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;General&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">)),</span>
+      <span class="n">dbc</span><span class="o">.</span><span class="n">DropdownMenu</span><span class="p">(</span>
+          <span class="n">children</span><span class="o">=</span><span class="p">[</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">DropdownMenuItem</span><span class="p">(</span><span class="s2">&quot;More pages&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">DropdownMenuItem</span><span class="p">(</span><span class="s2">&quot;Prescribers&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/pre&quot;</span><span class="p">),</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">DropdownMenuItem</span><span class="p">(</span><span class="s2">&quot;TigerGraph Cloud&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://tgcloud.io/&quot;</span><span class="p">),</span>
+          <span class="p">],</span>
+          <span class="n">nav</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">in_navbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+          <span class="n">label</span><span class="o">=</span><span class="s2">&quot;More&quot;</span><span class="p">,</span>
+      <span class="p">),</span>
+  <span class="p">],</span>
+  <span class="n">brand</span><span class="o">=</span><span class="s2">&quot;Example Navbar&quot;</span><span class="p">,</span>
+  <span class="n">brand_href</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+  <span class="n">color</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span>
+  <span class="n">dark</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">],</span> <span class="n">suppress_callback_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+    <span class="n">dcc</span><span class="o">.</span><span class="n">Location</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">navbar</span><span class="p">,</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Wow, look at this amazing navbar!&quot;</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Let's break it down!</p>
+<ul>
+<li>First, we add a  <code>dbc.NavItem()</code> which contains a <strong>link to the homepage</strong>. As a
+result, the <code>href</code> tag is simply a <code>/</code>.</li>
+<li>After this, we add our <code>dbc.DropdownMenu()</code>, very similar to <code>dbc.Dropdown()</code> from earlier. This dropdown
+contains a <font color='#DD6E0F'>header, titled "More Pages"</font>. Next, it contains a
+<font color='#DD6E0F'>link to our Prescribers page</font> as well as a link to the
+<font color='#DD6E0F'>TigerGraph Cloud Portal</font>. These links are added via <code>dbc.DropdownMenuItem()</code>.</li>
+<li>With the <code>brand</code> attribute, we can <strong>title our navbar</strong> and change its home link.</li>
+<li>Finally, we can modify the colors and styling of the navbar.</li>
+</ul>
+<p>Although we haven't included the pages themselves in this example, <font color='#DD6E0F'>clicking the menu items will update the url.</font></p>
+<p><center> <img alt="Navbar1" src="../../assets/chap9-12/09_navbar1.gif" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>Let's try another example using navbars!</p>
+</details>
+<details class="info"><summary>Adding Navbar Elements</summary><h2 id="adding-navbar-elements">Adding Navbar Elements<a class="headerlink" href="#adding-navbar-elements" title="Permanent link">&para;</a></h2>
+<p>Let's add our dropdown to our navbar, and our navbar to our Prescriber Page.</p>
+<div class="highlight"><pre><span></span><code><span class="n">dropdown</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+                      <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;pres-dropdown&quot;</span><span class="p">,</span>
+                      <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a prescriber...&quot;</span> <span class="p">,</span>
+                      <span class="n">options</span><span class="o">=</span><span class="n">getPresList</span><span class="p">(),</span>
+                      <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span><span class="s1">&#39;400px&#39;</span><span class="p">}</span>
+                    <span class="p">),</span>
+                   <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span>
+                  <span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;600px&quot;</span><span class="p">})</span>
+
+<span class="n">navbar</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Navbar</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">A</span><span class="p">(</span>
+            <span class="c1"># Use row and col to control vertical alignment of logo / brand</span>
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">NavbarBrand</span><span class="p">(</span><span class="s2">&quot;Healthcare Dashboard - TigerGraph&#39;s Dash Class Example&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;ml-2&quot;</span><span class="p">)),</span>
+                <span class="p">],</span>
+                <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">no_gutters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">dropdown</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;dark&quot;</span><span class="p">,</span>
+    <span class="n">dark</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">prescriberPage</span><span class="p">(</span><span class="n">pres</span><span class="p">):</span>
+  <span class="n">prescriberTitleCard</span><span class="p">,</span> <span class="n">tableCard</span><span class="p">,</span> <span class="n">barCard</span><span class="p">,</span> <span class="n">networkCard</span> <span class="o">=</span> <span class="n">getPrescriberInfo</span><span class="p">(</span><span class="n">pres</span><span class="p">)</span>
+
+  <span class="n">page</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">navbar</span><span class="p">,</span>
+            <span class="n">prescriberTitleCard</span><span class="p">,</span>         
+
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">tableCard</span><span class="p">),</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                      <span class="n">barCard</span><span class="p">,</span>
+                      <span class="n">networkCard</span>
+                      <span class="p">],</span>
+                  <span class="p">)</span>
+                <span class="p">],</span>
+                <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;center&#39;</span>
+            <span class="p">),</span>
+        <span class="p">]))</span>
+
+  <span class="k">return</span> <span class="n">page</span>
+</code></pre></div>
+<p><center> <img alt="Nav1" src="../../assets/chap9-12/09_nav1.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>As seen, the navbar simply contains a <font color='#DD6E0F'>hyperlinked header</font> (that takes one back the main page) and a <font color='#DD6E0F'>dropdown to enter prescriber information</font>. No additional changes need to be made to the callback function. Here's the result!</p>
+<p><center> <img alt="Navbar2" src="../../assets/chap9-12/09_navbar2.gif" width="800" /> </center></p>
+<p>That helps make the Prescriber Page look a lot better!</p>
+<p>&nbsp; &nbsp;</p>
+<p>There's a few other options for Navbars as well, although we won't implement them for now:</p>
+<ul>
+<li><strong>NavbarSimple</strong> - according to Dash, <em><font color='#DD6E0F'>"simpler, but less flexible"</font></em></li>
+<li><strong>Navbar</strong> - more <font color='#DD6E0F'>customizability</font>, but more intricate to set up</li>
+<li><strong>NavbarBrand</strong> - contains a <font color='#DD6E0F'>brand name</font> (meant essentially for text)</li>
+<li><strong>NavbarToggler</strong> - essentially a <font color='#DD6E0F'>button</font> (tracks clicks, times)</li>
+</ul>
+<blockquote>
+<p>NOTE: For more information on navbars, feel free to check out the following resources:
+<a href="https://dash-bootstrap-components.opensource.faculty.ai/docs/components/navbar/"><code>dbc.Navbar()</code></a></p>
+</blockquote>
+</details>
+<blockquote>
+<p>NOTE: All code segments from this chapter can be found in this
+<a href="https://colab.research.google.com/drive/1RRirZeUi_zSBEDS9lDJw1dsxth_V0f-9#scrollTo=CmtYn4u2Cpr9">Colab Notebook</a>.</p>
+</blockquote>
+<h2 id="ch-10-sidebars">Ch 10 - Sidebars<a class="headerlink" href="#ch-10-sidebars" title="Permanent link">&para;</a></h2>
+<details class="info"><summary>Creating Sidebar Layout</summary><h2 id="creating-sidebar-layout">Creating Sidebar Layout<a class="headerlink" href="#creating-sidebar-layout" title="Permanent link">&para;</a></h2>
+<p>Just like navbars, sidebars allow for <strong>easier navigation across dashboards</strong>, especially
+ones with multiple pages. While the navbar sits on top of the app and is
+horizontal, the sidebar can <em>usually be found vertically on the left-side</em>.</p>
+<p>First, we must specify the styling of the sidebar, <font color='#DD6E0F'>namely width, padding, and background color</font>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">SIDEBAR_STYLE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;top&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;16rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;2rem 1rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;background-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#f8f9fa&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Using this <em>style dictionary</em>, we can create our sidebar layout.  </p>
+<div class="highlight"><pre><span></span><code><span class="n">sidebar</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">H2</span><span class="p">(</span><span class="s2">&quot;Sidebar&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;display-4&quot;</span><span class="p">),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+            <span class="s2">&quot;This is an example for TigerGraph&#39;s Dash Class&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;lead&quot;</span>
+        <span class="p">),</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">Nav</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;Home&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;Prescribers&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/pre&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;TG Cloud 🐯&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://tgcloud.io&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">),</span>
+            <span class="p">],</span>
+            <span class="n">vertical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">pills</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">style</span><span class="o">=</span><span class="n">SIDEBAR_STYLE</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Breaking it down, we have:</p>
+<ul>
+<li>A <strong>header</strong> with our sidebar title (<code>html.H2()</code>)</li>
+<li>A <strong>paragraph</strong> with a short description (<code>html.P()</code>)</li>
+<li>Three <strong>nav links</strong>: one to home, one to prescribers, and one to TG Cloud</li>
+</ul>
+<p>&nbsp; &nbsp;</p>
+<p>Now, we need to incorporate this sidebar into an example app.</p>
+<div class="highlight"><pre><span></span><code><span class="n">CONTENT_STYLE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;18rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span> <span class="s2">&quot;2rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;2rem 1rem&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">content</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;page-content&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">CONTENT_STYLE</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">],</span> <span class="n">suppress_callback_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">dcc</span><span class="o">.</span><span class="n">Location</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;url&quot;</span><span class="p">),</span> <span class="n">sidebar</span><span class="p">,</span> <span class="n">content</span><span class="p">])</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">dash</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="s1">&#39;page-content&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">),</span>
+              <span class="p">[</span><span class="n">dash</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;pathname&#39;</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">render_page_content</span><span class="p">(</span><span class="n">pathname</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pathname</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Congrats! You&#39;ve found the home page!&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pathname</span> <span class="o">==</span> <span class="s2">&quot;/pre&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Woah, you&#39;ve discovered the Prescribers Page!&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Jumbotron</span><span class="p">(</span>
+      <span class="p">[</span>
+          <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;404: Not found&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;text-danger&quot;</span><span class="p">),</span>
+          <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(),</span>
+          <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Uh oh! Unfortunately, the pathname </span><span class="si">{}</span><span class="s2"> was unable to be recognised...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pathname</span><span class="p">)),</span>
+      <span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>First and foremost, we must create a new <code>CONTENT_STYLE</code> dictionary.</p>
+<p>Note that the
+<code>margin-left</code> is 18rem, <font color='#DD6E0F'>accounting for both the sidebar's width and its padding (16rem and 2rem respectively).</font>
+Additionally, having a <code>margin-right</code> of 2rem allows for a <em>flush appearance</em> on both sides.</p>
+<p>We must set the <strong>style of our content</strong> <code>html.Div()</code> element to match this!</p>
+<p>Next, within our <code>app.layout()</code>, we must include <em>both the sidebar and content</em>. The rest of the app remains the
+same, with the callback to navigate across both pages not requiring any changes.</p>
+<p>&nbsp; &nbsp;</p>
+<p>And here's the simple sidebar app,</p>
+<p><center> <img alt="Output1" src="../../assets/chap9-12/10_output1.gif" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>Let's customize this for our Healthcare Starter Kit Dashboard!</p>
+</details>
+<details class="info"><summary>Adding Sidebar Elements</summary><h2 id="adding-sidebar-elements">Adding Sidebar Elements<a class="headerlink" href="#adding-sidebar-elements" title="Permanent link">&para;</a></h2>
+<p>Let's add some more elements to our dashboard's sidebar. First, we declare our <strong>global variables</strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">SIDEBAR_STYLE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;top&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="s2">&quot;16rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;2rem 1rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;background-color&quot;</span><span class="p">:</span> <span class="s2">&quot;#424242&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">WHITE</span> <span class="o">=</span> <span class="s2">&quot;#fffff8&quot;</span>
+<span class="n">TG_LOGO</span> <span class="o">=</span> <span class="s2">&quot;https://i.ibb.co/gMMXcQB/Untitled-design-9.png&quot;</span>
+<span class="n">PLOTLY_LOGO</span> <span class="o">=</span> <span class="s2">&quot;https://dash.plotly.com/docs../assets/images/light_plotly_dash_logo.png&quot;</span>
+</code></pre></div>
+<p>In addition to the style, we need to <font color='#DD6E0F'>store shared colors as well as images</font> we will be referencing
+as global variables for our dashboard. This allows for <em>easier readability and easier modification</em> of shared content.</p>
+<p>Next, we can define the sidebar layout.</p>
+<div class="highlight"><pre><span></span><code><span class="n">sidebar</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+            <span class="s2">&quot;A Plotly dashboard for TigerGraph&#39;s Healthcare Referrals Starter kit&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;lead&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="s2">&quot;#ffcf9e&quot;</span><span class="p">}</span>
+        <span class="p">)),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;borderColor&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+            <span class="s2">&quot;Use the following to navigate this dashboard&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;lead&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}</span>
+        <span class="p">)),</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">Nav</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;Home&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;Prescribers&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/pre&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">NavLink</span><span class="p">(</span><span class="s2">&quot;TG Cloud 🐯&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://tgcloud.io&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+            <span class="p">],</span>
+            <span class="n">vertical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">pills</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;borderColor&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span>
+            <span class="s2">&quot;To learn more, feel free to check out the following:&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;lead&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}</span>
+        <span class="p">)),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Li</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">A</span><span class="p">(</span><span class="s2">&quot;Inroduction to Graphs&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;https://www.tigergraph.com/blog/what-is-a-graph-database-and-why-should-you-care/&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;_blank&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Li</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">A</span><span class="p">(</span><span class="s2">&quot;Introduction to Dash&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;https://www.youtube.com/watch?v=e4ti2fCpXMI&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;_blank&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;borderColor&#39;</span><span class="p">:</span><span class="n">WHITE</span><span class="p">}),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+
+        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">TG_LOGO</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;175px&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span> <span class="s2">&quot;15px&quot;</span><span class="p">,</span> <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;50px&quot;</span><span class="p">})))),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Img</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">PLOTLY_LOGO</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;225px&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span> <span class="s2">&quot;15px&quot;</span><span class="p">})))),</span>
+    <span class="p">],</span>
+    <span class="n">style</span><span class="o">=</span><span class="n">SIDEBAR_STYLE</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Let's dissect this new sidebar,</p>
+<ul>
+<li>First, we have our <font color='#DD6E0F'>centered title</font>, in a different color than before. This is because the background color of our sidebar is now a darker shade of grey, meaning <em>all text should be lighter colors</em>.</li>
+<li>Next, we have a <font color='#DD6E0F'>standard horizontal rule</font>, however colored white instead of the usual grey.</li>
+<li>Following this is <font color='#DD6E0F'>another short description</font>, in the color white to allow for easier readability.</li>
+<li>This next section hasn't changed, it simply contains our <code>dbc.Nav()</code></li>
+<li>After another white horizontal rule, we have a shot description for further resources</li>
+<li>Using the <code>html.Li()</code> component, we can <font color='#DD6E0F'>include hyperlinks to external webpages</font>. Although this can be achieved using <code>dcc.Link()</code> (as we covered in a previous chapter), it <strong>never hurts to learn multiple ways</strong> for accomplishing a given task! Both provide similar functionality.</li>
+<li>Finally, we have <font color='#DD6E0F'>two centered images</font>. Our TigerGraph and Plotly Dash logos. With <code>html.Img()</code>, we can specify <strong>width, height, and margins</strong>. These are stored in <code>dbc.Row()</code> and <code>dbc.Col()</code> to provide consistent borders.</li>
+</ul>
+<p>&nbsp; &nbsp;</p>
+<p>Now, it's time to incorporate this sidebar into our app.</p>
+<p>First, we need to reformat our figures and page layouts to account for the change in width.</p>
+<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Reformatted Pie, Scatter</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">pieChart</span> <span class="o">=</span> <span class="n">getClaimsPieChart</span><span class="p">()</span>
+<span class="n">scatterChart</span> <span class="o">=</span> <span class="n">getScatterChart</span><span class="p">()</span>
+
+<span class="n">pieChartCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;All Submitted Claims&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Which categories of claims are most frequent?</span><span class="se">\n</span><span class="s2"> Which areas should prescribers focus on?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Pie Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">pieChart</span><span class="p">)</span>
+                              <span class="p">])</span>
+                <span class="p">],</span>
+                <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;49rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                    <span class="p">}</span>
+              <span class="p">)</span>
+
+<span class="n">scatterChartCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Prescriber Communities&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Do communities lead to more business? How do the number of referrals compare to community size?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Scatter Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">scatterChart</span><span class="p">)</span>
+                              <span class="p">])</span>
+                <span class="p">],</span>
+                <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;50rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                    <span class="p">}</span>
+              <span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Reformatted getPrescriberInfo()</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getPrescriberInfo</span><span class="p">(</span><span class="n">person_num</span><span class="p">):</span>
+  <span class="n">network</span> <span class="o">=</span> <span class="n">getNetwork</span><span class="p">(</span><span class="n">person_num</span><span class="p">)</span>
+  <span class="n">number</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="n">max_title</span> <span class="o">=</span> <span class="n">getClaims</span><span class="p">(</span><span class="n">person_num</span><span class="p">)</span>
+
+  <span class="n">prescriberTitleCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Badge</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;  Prescriber &quot;</span> <span class="o">+</span> <span class="n">person_num</span> <span class="o">+</span> <span class="s2">&quot;&#39;s Claims  &quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;light&quot;</span><span class="p">)),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This individual has a total of &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; claims. Their most referred to specialization is: &quot;</span> <span class="o">+</span> <span class="n">max_title</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">)),</span>  
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;95rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="n">tableCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Claims by Prescriber&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;A detailed description of each claim...&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                        <span class="n">table</span>
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;48rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="n">barCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Claims by Category&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Which claims are being prescribed most?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Bar Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">bar</span><span class="p">)</span>
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;48rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;0rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="n">networkCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Prescriber Network&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Who&#39;s part of this prescriber&#39;s community?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                        <span class="n">network</span>
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;48rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;0rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">prescriberTitleCard</span><span class="p">,</span> <span class="n">tableCard</span><span class="p">,</span> <span class="n">barCard</span><span class="p">,</span> <span class="n">networkCard</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Reformatted Pages</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">generalPage</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+                      <span class="s2">&quot;Switch Pages&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;switch-button&quot;</span><span class="p">,</span>
+                      <span class="n">className</span><span class="o">=</span><span class="s2">&quot;mr-2&quot;</span><span class="p">,</span> <span class="n">n_clicks</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/pre&quot;</span>
+                    <span class="p">),</span>
+                    <span class="n">width</span><span class="o">=</span><span class="mi">2</span>
+                <span class="p">),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">titleCard</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">statsListGroup</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">),</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+                  <span class="n">pieChartCard</span><span class="p">,</span>
+                  <span class="n">scatterChartCard</span><span class="p">,</span>
+                  <span class="p">],</span>
+                  <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
+                <span class="p">),</span>
+
+              <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;100rem&quot;</span><span class="p">}))</span>
+
+<span class="n">dropdown</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span>
+                    <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+                      <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;pres-dropdown&quot;</span><span class="p">,</span>
+                      <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a prescriber...&quot;</span> <span class="p">,</span>
+                      <span class="n">options</span><span class="o">=</span><span class="n">getPresList</span><span class="p">(),</span>
+                      <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span><span class="s1">&#39;400px&#39;</span><span class="p">}</span>
+                    <span class="p">),</span>
+                   <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span>
+                  <span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;35rem&quot;</span><span class="p">})</span>
+
+<span class="n">navbar</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Navbar</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">html</span><span class="o">.</span><span class="n">A</span><span class="p">(</span>
+            <span class="c1"># Use row and col to control vertical alignment of logo / brand</span>
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">NavbarBrand</span><span class="p">(</span><span class="s2">&quot;Healthcare Dashboard - TigerGraph&#39;s Dash Class Example&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;ml-2&quot;</span><span class="p">)),</span>
+                <span class="p">],</span>
+                <span class="n">align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">no_gutters</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">href</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">dropdown</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;dark&quot;</span><span class="p">,</span>
+    <span class="n">dark</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">prescriberPage</span><span class="p">(</span><span class="n">pres</span><span class="p">):</span>
+  <span class="n">prescriberTitleCard</span><span class="p">,</span> <span class="n">tableCard</span><span class="p">,</span> <span class="n">barCard</span><span class="p">,</span> <span class="n">networkCard</span> <span class="o">=</span> <span class="n">getPrescriberInfo</span><span class="p">(</span><span class="n">pres</span><span class="p">)</span>
+
+  <span class="n">page</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">navbar</span><span class="p">,</span>
+            <span class="n">prescriberTitleCard</span><span class="p">,</span>         
+
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span><span class="n">tableCard</span><span class="p">),</span>
+              <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                      <span class="n">barCard</span><span class="p">,</span>
+                      <span class="n">networkCard</span>
+                      <span class="p">],</span>
+                  <span class="p">)</span>
+                <span class="p">],</span>
+                <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;center&#39;</span>
+            <span class="p">),</span>
+        <span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;100rem&quot;</span><span class="p">}))</span>
+
+  <span class="k">return</span> <span class="n">page</span>
+</code></pre></div>
+</div>
+</div>
+<p>&nbsp; &nbsp;</p>
+<p>Now, we can incorporate our sidebar into the <code>app.layout</code>.</p>
+<p>It's important
+to note that only <code>page-content</code> contains <code>CONTENT_STYLE</code>. Our <code>pres-content</code> page
+<strong>doesn't require this styling</strong> as it is not part of our <code>app.layout</code> directly. Instead,
+it is returned to substitute <code>page-content</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">CONTENT_STYLE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;18rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span> <span class="s2">&quot;2rem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;padding&quot;</span><span class="p">:</span> <span class="s2">&quot;2rem 1rem&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">],</span> <span class="n">suppress_callback_exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">presPage</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">prescriberPage</span><span class="p">(</span><span class="s2">&quot;pre78&quot;</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;pres-content&#39;</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+    <span class="n">dcc</span><span class="o">.</span><span class="n">Location</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">sidebar</span><span class="p">,</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;page-content&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">CONTENT_STYLE</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">dash</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="s1">&#39;page-content&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">),</span>
+              <span class="p">[</span><span class="n">dash</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">,</span> <span class="s1">&#39;pathname&#39;</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">display_page</span><span class="p">(</span><span class="n">pathname</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">pathname</span> <span class="o">==</span> <span class="s2">&quot;/&quot;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">generalPage</span>
+  <span class="k">elif</span> <span class="n">pathname</span> <span class="o">==</span> <span class="s2">&quot;/pre&quot;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">presPage</span>
+
+  <span class="k">return</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Jumbotron</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;404: Not found&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s2">&quot;text-danger&quot;</span><span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Uh oh! Unfortunately, the pathname </span><span class="si">{}</span><span class="s2"> was unable to be recognised...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pathname</span><span class="p">)),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">dash</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="s1">&#39;pres-content&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">),</span>
+              <span class="p">[</span><span class="n">dash</span><span class="o">.</span><span class="n">dependencies</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="s1">&#39;pres-dropdown&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">update_pres</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+  <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">prescriberPage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">prescriberPage</span><span class="p">(</span><span class="s2">&quot;pre78&quot;</span><span class="p">)</span> <span class="c1"># Our default value</span>
+
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>And here's our output, both pages complete with the sidebar!</p>
+<p><center> <img alt="Sidebar1" src="../../assets/chap9-12/10_sidebar1.jpg" width="800" /> </center></p>
+<p><center> <img alt="Sidebar2" src="../../assets/chap9-12/10_sidebar2.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>Awesome! And that's how to incorporate a sidebar into one's dashboard :)</p>
+<blockquote>
+<p>NOTE: For more information on sidebars, feel free to check out the following resources:
+<a href="https://www.youtube.com/watch?v=ln8dyS2y4Nc">Dash Sidebar Video</a></p>
+</blockquote>
+</details>
+<blockquote>
+<p>NOTE: All code segments from this chapter can be found in this
+<a href="https://colab.research.google.com/drive/1RRirZeUi_zSBEDS9lDJw1dsxth_V0f-9#scrollTo=yrXep4aGCsQe">Colab Notebook</a>.</p>
+</blockquote>
+                
+                  
+                
+              
+  <footer class="tx-content__footer md-typeset">
+    <a href="https://tigergraph.com" title="TigerGraph Website">
+      <hr>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 3h2v2H5v5a2 2 0 01-2 2 2 2 0 012 2v5h2v2H5c-1.07-.27-2-.9-2-2v-4a2 2 0 00-2-2H0v-2h1a2 2 0 002-2V5a2 2 0 012-2m14 0a2 2 0 012 2v4a2 2 0 002 2h1v2h-1a2 2 0 00-2 2v4a2 2 0 01-2 2h-2v-2h2v-5a2 2 0 012-2 2 2 0 01-2-2V5h-2V3h2m-7 12a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m-4 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m8 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1z"/></svg>
+      </span>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </span>
+      <span class="twemoji tx-heart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 20.408c-.492.308-.903.546-1.192.709-.153.086-.308.17-.463.252h-.002a.75.75 0 01-.686 0 16.709 16.709 0 01-.465-.252 31.147 31.147 0 01-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31.146 31.146 0 0114 20.408z"/></svg>
+      </span>
+      <hr>
+    </a>
+  </footer>
+
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../04_notes/" title="Multi-Page Layout, Callbacks" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Multi-Page Layout, Callbacks
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../06_notes/" title="Misc. Elements, Deployment" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Misc. Elements, Deployment
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 TigerGraph
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/tigergraph/ecosys" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://discord.gg/F2c9b9v" target="_blank" rel="noopener" title="discord.gg" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.youtube.com/c/TigerGraph/videos" target="_blank" rel="noopener" title="www.youtube.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/TigerGraphDB" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.linkedin.com/company/tigergraph/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.twitch.tv/tigergraph" target="_blank" rel="noopener" title="www.twitch.tv" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M391.17,103.47H352.54v109.7h38.63ZM285,103H246.37V212.75H285ZM120.83,0,24.31,91.42V420.58H140.14V512l96.53-91.42h77.25L487.69,256V0ZM449.07,237.75l-77.22,73.12H294.61l-67.6,64v-64H140.14V36.58H449.07Z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.c3dc8c49.min.js"></script>
+      <script src="../../assets/javascripts/bundle.30071cf1.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ["tabs", "navigation.top", "navigation.sections", "navigation.tracking", "navigation.tabs.sticky"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.8e2cddea.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

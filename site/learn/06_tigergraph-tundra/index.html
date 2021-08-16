@@ -1,0 +1,2035 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+      
+      
+        <link rel="canonical" href="https://advit-tg.github.io/dash-class/learn/06_tigergraph-tundra/">
+      
+      
+        <meta name="author" content="Advit Deepak">
+      
+      <link rel="shortcut icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-5.5.3">
+    
+    
+      
+        <title>Ch 06 - The TigerGraph Tundra - TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e584d62f.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cef4c379.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#ff7043">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+  
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.addEventListener("click", ev => {
+        if (ev.target instanceof HTMLElement) {
+          var el = ev.target.closest("a[href^=http]")
+          if (el)
+            ga("send", "event", "outbound", "click", el.href)
+        }
+      })
+    })
+  </script>
+
+    
+  
+  
+    
+  
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Ch 06 - The TigerGraph Tundra">
+  <meta property="og:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta property="og:url" content="https://advit-tg.github.io/dash-class/learn/06_tigergraph-tundra/">
+  <meta property="og:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@squidfunk">
+  <meta name="twitter:creator" content="@squidfunk">
+  <meta name="twitter:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Ch 06 - The TigerGraph Tundra">
+  <meta name="twitter:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta name="twitter:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <link rel="stylesheet" href="../../assets/stylesheets/overrides.011ebae6.min.css">
+
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tigergraph-tundra" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-announce">
+          <div class="md-announce__inner md-grid md-typeset">
+            
+  <a href="https://discord.gg/F2c9b9v">
+    Join TigerGraph's <strong>developer chat</strong> on
+    <span class="twemoji">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+    </span>
+  </a>
+
+          </div>
+        </aside>
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-header-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Ch 06 - The TigerGraph Tundra
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../intro/A_01_devoid-of-dash/" class="md-tabs__link">
+          Why Dashboard?
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../quick/01_notes/" class="md-tabs__link">
+          Quick Start
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../01_installation-island/" class="md-tabs__link md-tabs__link--active">
+          Adventure
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../examples/" class="md-tabs__link">
+          Examples
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../resources/" class="md-tabs__link">
+          Resources
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../community/" class="md-tabs__link">
+          Community
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Why Dashboard?
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Why Dashboard?" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Why Dashboard?
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_01_devoid-of-dash/" title="Devoid of Dash" class="md-nav__link">
+      Devoid of Dash
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_02_getting-started/" title="Trusty Toolbox" class="md-nav__link">
+      Trusty Toolbox
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Quick Start
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Quick Start
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/01_notes/" title="Installation, First Dash App" class="md-nav__link">
+      Installation, First Dash App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/02_notes/" title="Plotly, Dash, Styling Elements" class="md-nav__link">
+      Plotly, Dash, Styling Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/03_notes/" title="TigerGraph (pyTG, queries) 🐯" class="md-nav__link">
+      TigerGraph (pyTG, queries) 🐯
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/04_notes/" title="Multi-Page Layout, Callbacks" class="md-nav__link">
+      Multi-Page Layout, Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/05_notes/" title="Navigation - Navbars, Sidebars" class="md-nav__link">
+      Navigation - Navbars, Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/06_notes/" title="Misc. Elements, Deployment" class="md-nav__link">
+      Misc. Elements, Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Adventure
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Adventure" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Adventure
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../01_installation-island/" title="Ch 01 - Installation Island" class="md-nav__link">
+      Ch 01 - Installation Island
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../02_setup-sea/" title="Ch 02 - Sailing through Setup Sea" class="md-nav__link">
+      Ch 02 - Sailing through Setup Sea
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../03_port-plotly/" title="Ch 03 - Presenting Port Plotly" class="md-nav__link">
+      Ch 03 - Presenting Port Plotly
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../04_dash-delta/" title="Ch 04 - Dash's Delta" class="md-nav__link">
+      Ch 04 - Dash's Delta
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../05_sheriff-styles/" title="Ch 05 - Sheriff Styles" class="md-nav__link">
+      Ch 05 - Sheriff Styles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Ch 06 - The TigerGraph Tundra
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Ch 06 - The TigerGraph Tundra" class="md-nav__link md-nav__link--active">
+      Ch 06 - The TigerGraph Tundra
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-pytigergraph" class="md-nav__link">
+    Basic pyTigerGraph
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic pyTigerGraph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-queries" class="md-nav__link">
+    Running Queries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-vertices-and-edges" class="md-nav__link">
+    Getting Vertices and Edges
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#built-in-queries" class="md-nav__link">
+    Built-in Queries
+  </a>
+  
+    <nav class="md-nav" aria-label="Built-in Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getclaims" class="md-nav__link">
+    getClaims
+  </a>
+  
+    <nav class="md-nav" aria-label="getClaims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bar-chart" class="md-nav__link">
+    Bar Chart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dash-table" class="md-nav__link">
+    Dash Table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#print_community" class="md-nav__link">
+    Print_Community
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-queries" class="md-nav__link">
+    Custom Queries
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claim_titles" class="md-nav__link">
+    Claim_Titles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commvsreferrals" class="md-nav__link">
+    CommVsReferrals
+  </a>
+  
+    <nav class="md-nav" aria-label="CommVsReferrals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helper_nummembers" class="md-nav__link">
+    Helper_NumMembers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper_numreferrals" class="md-nav__link">
+    Helper_NumReferrals
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#main-query" class="md-nav__link">
+    Main Query
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-it-together" class="md-nav__link">
+    Putting it Together
+  </a>
+  
+    <nav class="md-nav" aria-label="Putting it Together">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-itself" class="md-nav__link">
+    Dashboard Itself
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../07_multi-monster/" title="Ch 07 - The Multi-Page Monsters" class="md-nav__link">
+      Ch 07 - The Multi-Page Monsters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../08_callback-cliff/" title="Ch 08 - Confronted by Callbacks" class="md-nav__link">
+      Ch 08 - Confronted by Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../09_northern-navbars/" title="Ch 09 - Northern Navbars" class="md-nav__link">
+      Ch 09 - Northern Navbars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../10_southern-sidebars/" title="Ch 10 - Southern Sidebars" class="md-nav__link">
+      Ch 10 - Southern Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../11_elysium-elements/" title="Ch 11 - Elysium of Elements" class="md-nav__link">
+      Ch 11 - Elysium of Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../12_destination-deployment/" title="Ch 12 - Destination Deployment" class="md-nav__link">
+      Ch 12 - Destination Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Examples
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Examples" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../examples/" title="Exquisite Examples" class="md-nav__link">
+      Exquisite Examples
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Resources
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Resources" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Resources
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../resources/" title="Resources" class="md-nav__link">
+      Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Community
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Community" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Community
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../community/" title="Get Connected" class="md-nav__link">
+      Get Connected
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-pytigergraph" class="md-nav__link">
+    Basic pyTigerGraph
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic pyTigerGraph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-queries" class="md-nav__link">
+    Running Queries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-vertices-and-edges" class="md-nav__link">
+    Getting Vertices and Edges
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#built-in-queries" class="md-nav__link">
+    Built-in Queries
+  </a>
+  
+    <nav class="md-nav" aria-label="Built-in Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getclaims" class="md-nav__link">
+    getClaims
+  </a>
+  
+    <nav class="md-nav" aria-label="getClaims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bar-chart" class="md-nav__link">
+    Bar Chart
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dash-table" class="md-nav__link">
+    Dash Table
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#print_community" class="md-nav__link">
+    Print_Community
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-queries" class="md-nav__link">
+    Custom Queries
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claim_titles" class="md-nav__link">
+    Claim_Titles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commvsreferrals" class="md-nav__link">
+    CommVsReferrals
+  </a>
+  
+    <nav class="md-nav" aria-label="CommVsReferrals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helper_nummembers" class="md-nav__link">
+    Helper_NumMembers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper_numreferrals" class="md-nav__link">
+    Helper_NumReferrals
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#main-query" class="md-nav__link">
+    Main Query
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-it-together" class="md-nav__link">
+    Putting it Together
+  </a>
+  
+    <nav class="md-nav" aria-label="Putting it Together">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-itself" class="md-nav__link">
+    Dashboard Itself
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+  
+                
+                
+                  
+                
+                
+                <h1 id="tigergraph-tundra">TigerGraph Tundra 🐯<a class="headerlink" href="#tigergraph-tundra" title="Permanent link">&para;</a></h1>
+<p><center> <img alt="Page6" src="../../assets/banners/section6.svg" width="800" /> </center></p>
+<p>As we make our way across the delta, the snow-capped mountains begin to encircle
+us. With each passing minute, the <font color='#DD6E0F'>temperature falls while the gusts grow stronger.</font></p>
+<p>Soon, we reach an old wooden sign:</p>
+<p><center> <strong><em>“TigerGraph Tundra. Population: 1”</em></strong> </center></p>
+<p>Quite strange indeed. The wind begins to howl and the cold flurries continue
+to gnaw at our ankles. In the buffeting storm, we hear a voice call out to us.</p>
+<p><strong><em>“Quick, in here!”</em></strong></p>
+<p>An <font color='#DD6E0F'>orange outline</font> beckons to us, guiding us towards a rocky
+cave. Rushing inside, the stranger lights a torch and holds it closer to their
+face, revealing a… tiger?</p>
+<p><strong><em>“I am the protector of these parts, guide to all those who wish to <font color='#DD6E0F'>learn the
+power of TigerGraph</font>”, the stranger exclaims. “I’ve heard that you are on a
+quest to create the ultimate dashboard?”</em></strong></p>
+<p>We quietly nod as our savior from the storm turns,</p>
+<p><strong><em>“Come, warm yourselves by the fire. We’ve got a lot to discuss…”</em></strong></p>
+<details class="info" open="open"><summary>TigerGraph Tutorial 01</summary><h2 id="basic-pytigergraph">Basic pyTigerGraph<a class="headerlink" href="#basic-pytigergraph" title="Permanent link">&para;</a></h2>
+<p>In Chapter 01 - Installation Island, we had connected to our <font color='#DD6E0F'>Healthcare Starter Kit
+solution</font> using pyTigerGraph. This connection has <strong>several existing functions</strong> that we
+can use to access general information about our graph.</p>
+<h3 id="running-queries">Running Queries<a class="headerlink" href="#running-queries" title="Permanent link">&para;</a></h3>
+<p>Before beginning, we must execute two queries which will help populate portions of
+our Graph. More specifically, running the <code>ex2_main_query</code> followed by the <code>algo_louvain</code>
+query <font color='#DD6E0F'>creates referral edges</font> used to link prescribers together. These edges are then
+used to <strong>detect communities of prescribers</strong>, which are useful in analyzing the relationships
+among healthcare providers, claims, and referrals.</p>
+<p>To run these queries, we simply execute the following:</p>
+<div class="highlight"><pre><span></span><code><span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;ex2_main_query&quot;</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;algo_louvain&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>And voila, it's as simple as that! Now, we can begin to analyze the vertices and edges of our Graph...</p>
+<h3 id="getting-vertices-and-edges">Getting Vertices and Edges<a class="headerlink" href="#getting-vertices-and-edges" title="Permanent link">&para;</a></h3>
+<p>In order to get all vertex types, we run <code>conn.getVertexTypes()</code>. Thes types can then
+be iterated through and the number of vertices belonging to each type can be determined
+via  <code>conn.getVertexCount()</code>. Here's an example!</p>
+<p><img align="right" alt="BasicTG1" src="../../assets/chap5-8/06_basicTG1.jpg" /></p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vertices </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">getVertexTypes</span><span class="p">():</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">vertex</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">getVertexCount</span><span class="p">(</span><span class="n">vertex</span><span class="p">)))</span>
+</code></pre></div>
+<p>A <strong>similar methodology</strong> can be used for edges. Simply replace "Vertex" with "Edge",
+giving us <code>conn.getEdgeTypes()</code> and <code>conn.getEdgeCount()</code>:</p>
+<p><img align="right" alt="BasicTG2" src="../../assets/chap5-8/06_basicTG2.jpg" /></p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Edges </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">getEdgeTypes</span><span class="p">():</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">edge</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">getEdgeCount</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
+</code></pre></div>
+<blockquote>
+<p>NOTE: For a comprehensive list, feel
+free to check out: <a href="https://pytigergraph.github.io/pyTigerGraph/Functions/">pyTG functions</a></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+</details>
+<p><strong><em>"With our general solution statistics ready, we can begin exploring our queries..."</em></strong></p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>TigerGraph Tutorial 02</summary><h2 id="built-in-queries">Built-in Queries<a class="headerlink" href="#built-in-queries" title="Permanent link">&para;</a></h2>
+<p>Our Healthcare Starter Kit comes with <font color='#DD6E0F'>several pre-built queries.</font> Each of them
+and their accompanying GSQL can be found in GraphStudio under the <strong>"Write Queries"</strong>
+tab. Here's a small snippet of what that page looks like:</p>
+<p><center> <img alt="Built1" src="../../assets/chap5-8/06_built1.jpg" width="800" /> </center></p>
+<p>As seen on the left, there are a lot of options to explore!</p>
+<p>However, in this section we will dive into <code>getClaims()</code> and <code>Print_community()</code></p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="getclaims">getClaims<a class="headerlink" href="#getclaims" title="Permanent link">&para;</a></h3>
+<p>The <code>getClaims()</code> query simply returns a <font color='#DD6E0F'>list of all claims of a given prescriber.</font></p>
+<p>Here's a screenshot of the GSQL code (via GraphStudio)</p>
+<p><center> <img alt="Built2" src="../../assets/chap5-8/06_built2.jpg" width="800" /> </center></p>
+<p>In order to access this query from Python, we can use the same <code>conn.runInstalledQuery()</code> as before:</p>
+<div class="highlight"><pre><span></span><code><span class="n">person_num</span> <span class="o">=</span> <span class="s2">&quot;pre78&quot;</span>
+
+<span class="n">claims</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;getClaims&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;inputPrescriber&quot;</span><span class="p">:</span> <span class="n">person_num</span><span class="p">})[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;claims&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">claims</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Built3" src="../../assets/chap5-8/06_built3.jpg" width="800" /> </center></p>
+<p>As seen, the result is a list of claim vertices (established by <code>'v_type':'Claim'</code>). Using
+each claim's <code>attributes</code> dictionary, we can create a few neat visualizations. First, let's process this data...</p>
+<div class="highlight"><pre><span></span><code><span class="n">claims</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;getClaims&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;inputPrescriber&quot;</span><span class="p">:</span> <span class="n">person_num</span><span class="p">})[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;claims&#39;</span><span class="p">]</span>
+<span class="n">title_map</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">count_list</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">description_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">claim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">claims</span><span class="p">):</span>
+
+  <span class="n">title</span> <span class="o">=</span> <span class="n">claim</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">][</span><span class="s1">&#39;CodeGroupTitle&#39;</span><span class="p">]</span>
+  <span class="n">desc</span> <span class="o">=</span> <span class="n">claim</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">][</span><span class="s1">&#39;ICD10CodeDescription&#39;</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;None provided!&quot;</span>
+
+  <span class="k">if</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">title_map</span><span class="p">:</span>
+    <span class="n">title_map</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="n">title_map</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">title_map</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+  <span class="n">count_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+  <span class="n">description_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+</code></pre></div>
+<p>Here, <code>title_map</code> simply keeps track of the <strong>frequency of each category of claim</strong>. <code>count_list</code>
+is simply a list of all the claim numbers while <code>description_list</code> holds the description of
+each claim (ex. "Displaced fracture").</p>
+<p>&nbsp; &nbsp;</p>
+<h4 id="bar-chart">Bar Chart<a class="headerlink" href="#bar-chart" title="Permanent link">&para;</a></h4>
+<p>Using this data, we can create a bar chart:</p>
+<div class="highlight"><pre><span></span><code><span class="n">titleList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">countList</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">title_map</span><span class="p">:</span>
+  <span class="n">titleList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+  <span class="n">countList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title_map</span><span class="p">[</span><span class="n">entry</span><span class="p">])</span>
+
+<span class="c1"># Next, we create a bar chart using a DataFrame</span>
+
+<span class="n">countData</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">titleList</span><span class="p">,</span> <span class="n">countList</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Claim Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Count&#39;</span><span class="p">])</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">countData</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Claim Title&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color_discrete_sequence</span> <span class="o">=</span><span class="p">[</span><span class="s2">&quot;#DDEE00&quot;</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">countData</span><span class="p">))</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">categoryorder</span><span class="o">=</span><span class="s1">&#39;category ascending&#39;</span><span class="p">)</span>
+<span class="n">bar</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">template</span><span class="o">=</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">,</span> <span class="n">xaxis_title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="Built4" src="../../assets/chap5-8/06_built4.jpg" width="800" /> </center></p>
+<p>Pretty straightforward now that we've processed our query results!</p>
+<p>&nbsp; &nbsp;</p>
+<h4 id="dash-table">Dash Table<a class="headerlink" href="#dash-table" title="Permanent link">&para;</a></h4>
+<p>Additionally, we can create a table of each claim. <font color='#DD6E0F'>Using Dash Bootstrap Components</font>, this becomes an easy task:</p>
+<div class="highlight"><pre><span></span><code><span class="n">descriptionData</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">count_list</span><span class="p">,</span> <span class="n">description_list</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Claim Num&#39;</span><span class="p">,</span> <span class="s1">&#39;Claim Description&#39;</span><span class="p">])</span>
+<span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Thead</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Tr</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Th</span><span class="p">(</span><span class="s2">&quot;Claim Number&quot;</span><span class="p">),</span> <span class="n">html</span><span class="o">.</span><span class="n">Th</span><span class="p">(</span><span class="s2">&quot;Claim Description&quot;</span><span class="p">)]))]</span>
+
+<span class="n">table</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+    <span class="n">dbc</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">descriptionData</span><span class="p">,</span> <span class="n">striped</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bordered</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;overflowY&#39;</span><span class="p">:</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span><span class="s1">&#39;450px&#39;</span><span class="p">}</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Although this won't show until we add the <code>table</code> element to our dashboard, here's a sneak peek of the result!</p>
+<p><center> <img alt="Built5" src="../../assets/chap5-8/06_built5.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="print_community">Print_Community<a class="headerlink" href="#print_community" title="Permanent link">&para;</a></h3>
+<p>Next up, we have <code>Print_Community</code>, which <font color='#DD6E0F'>outputs the prescriber network</font> that the
+inputted prescriber belongs to. For example, this is the following result given in
+<strong>GraphStudio</strong> when run with the input of "pre78" (Prescriber 78):</p>
+<p><center> <img alt="Built6" src="../../assets/chap5-8/06_built6.jpg" width="800" /> </center></p>
+<p>In order to replicate this in Dash, we can utilize <code>dash_cytoscape</code>. This package
+allows for the <font color='#DD6E0F'>creation of interactive graphs</font> which can be easily modified and
+embedded into our dashboard.</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">dash</span><span class="o">-</span><span class="n">cytoscape</span>
+<span class="kn">import</span> <span class="nn">dash_cytoscape</span> <span class="k">as</span> <span class="nn">cyto</span>
+</code></pre></div>
+<p>&nbsp; &nbsp;</p>
+<p>Now, we can begin impleninging the network.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getNetwork</span><span class="p">(</span><span class="n">person_num</span><span class="p">):</span>
+  <span class="n">comms</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;Print_community&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;inputPrescriber&quot;</span><span class="p">:</span> <span class="n">person_num</span><span class="p">})[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;@@edgeList&#39;</span><span class="p">]</span>
+
+  <span class="n">vertices</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="n">els</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">comms</span><span class="p">:</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;from_id&#39;</span><span class="p">]</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="s1">&#39;to_id&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">source</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">source</span> <span class="o">==</span> <span class="n">person_num</span><span class="p">:</span>
+        <span class="n">els</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">},</span> <span class="s1">&#39;classes&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">})</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">els</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">}})</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vertices</span><span class="p">:</span>
+      <span class="n">els</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">}})</span>
+
+    <span class="n">els</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">}})</span>
+
+
+  <span class="n">network</span> <span class="o">=</span> <span class="n">cyto</span><span class="o">.</span><span class="n">Cytoscape</span><span class="p">(</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;cytoscape&#39;</span><span class="p">,</span>
+                  <span class="n">elements</span><span class="o">=</span><span class="n">els</span><span class="p">,</span>
+                  <span class="n">layout</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;breadthfirst&#39;</span><span class="p">,</span> <span class="s1">&#39;padding&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">1000</span><span class="p">},</span>
+                  <span class="n">stylesheet</span><span class="o">=</span> <span class="p">[</span>
+                      <span class="p">{</span>
+                          <span class="s1">&#39;selector&#39;</span><span class="p">:</span> <span class="s1">&#39;node&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span>
+                              <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;data(label)&#39;</span>
+                          <span class="p">}</span>
+                      <span class="p">},</span>
+                      <span class="p">{</span>
+                          <span class="s1">&#39;selector&#39;</span><span class="p">:</span> <span class="s1">&#39;.red&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span>
+                              <span class="s1">&#39;background-color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                            <span class="p">}</span>
+                      <span class="p">}</span>
+                  <span class="p">],</span>
+
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;500px&#39;</span><span class="p">,</span> <span class="s1">&#39;margin-left&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+              <span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">network</span>
+</code></pre></div>
+<p>At the start, we run our query and parse through the results (each vertex/edge)
+in the prescriber community to create a list of elements, called <code>els</code>. These
+elements are in the <strong>appropriate format needed</strong> for Cytoscape.</p>
+<p>Vertex information is stored as <code>{'data': {'id': source, 'label': source}}</code> while
+edge information is stored as <code>{'data': {'id': target, 'label': target}}</code>. In both
+cases, source/target are simply vertex IDs.</p>
+<p>&nbsp; &nbsp;</p>
+<p>Although this won't show until we add the <code>network</code> element to our dashboard, here's another sneak peek!</p>
+<p><center> <img alt="Built7" src="../../assets/chap5-8/06_built7.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<blockquote>
+<p>NOTE: For more information, feel free to check out the following resources:
+<a href="https://dash.plotly.com/cytoscape/reference">Dash Cytoscape</a></p>
+</blockquote>
+</details>
+<p>&nbsp; &nbsp;</p>
+<p><strong><em>"We can add our own custom queries to our solution as well..."</em></strong></p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>TigerGraph Tutorial 03</summary><h2 id="custom-queries">Custom Queries<a class="headerlink" href="#custom-queries" title="Permanent link">&para;</a></h2>
+<p>We can create custom queries in two ways:</p>
+<ul>
+<li><font color='#DD6E0F'>Via GSQL in GraphStudio</font> under the "Write Queries" tab</li>
+<li><font color='#DD6E0F'>In our Python Script</font> via the function <code>conn.gsql()</code></li>
+</ul>
+<h3 id="claim_titles">Claim_Titles<a class="headerlink" href="#claim_titles" title="Permanent link">&para;</a></h3>
+<p>Let's take a look at a GSQL query that <strong>returns a frequency map</strong> of all the claims
+within the Graph.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Claim_Titles</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;USE GRAPH MyGraph</span>
+<span class="s1">CREATE QUERY Claim_Titles() FOR GRAPH MyGraph {</span>
+<span class="s1">    MapAccum&lt;STRING, SumAccum&lt;INT&gt;&gt; @@allClaims;</span>
+
+<span class="s1">    start = {Claim.*};</span>
+
+<span class="s1">    claims = SELECT c</span>
+<span class="s1">                FROM start:c</span>
+<span class="s1">                ACCUM @@allClaims += (c.CodeGroupTitle -&gt; 1);</span>
+
+<span class="s1">    PRINT @@allClaims as freqClaims;</span>
+<span class="s1">}</span>
+<span class="s1">INSTALL QUERY Claim_Titles&#39;&#39;&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">gsql</span><span class="p">(</span><span class="n">Claim_Titles</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">[]))</span>
+</code></pre></div>
+<ul>
+<li>First, our GSQL is all stored in <strong>one variable</strong>, a string.</li>
+<li>The first line of our GSQL statement establishes which graph we're using</li>
+<li>The next line is our <font color='#DD6E0F'>query header</font>, which establishes the name of the query as well as
+any parameters or return values. In this case, there are no parameters (indicated by the empty paranthesis after
+the query name) and we are simply
+<strong>printing the results</strong> into a variable rather than returning any values.</li>
+</ul>
+<p>&nbsp; &nbsp;</p>
+<p>Now, we can dive into our query logic.</p>
+<ul>
+<li>With the line <code>MapAccum&lt;STRING, SumAccum&lt;INT&gt;&gt; @@allClaims;</code>, we create an accumulator
+that maps strings to a sum accumulator. Each string holds the claim title while the sum
+accumulator simply counts the number of instances of each claim title</li>
+<li>After this, we start with the entire set of vertices of type "Claim".</li>
+<li>Within our <code>SELECT</code> statement, we iterate across this entire set of claims and
+<strong>update our accumulator</strong> via <code>ACCUM @@allClaims += (c.CodeGroupTitle -&gt; 1);</code></li>
+<li>Finally, we print our map accumulator so that we may <font color='#DD6E0F'>access it via Python</font></li>
+<li>The last line simply installs the query</li>
+</ul>
+<p>After writing this query, we run <code>print(conn.gsql(Claim_Titles, options=[]))</code>
+in order to install it.</p>
+<blockquote>
+<p>NOTE: If a query is already installed, trying to <strong>re-install it will result in an error!</strong></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p>And voila, now we can access this query in GraphStudio as well.</p>
+<p><center> <img alt="Custom1" src="../../assets/chap5-8/06_custom1.jpg" width="800" /> </center></p>
+<p><center> <em>Ahh, you may have noticed the three additional queries on the left. Don't worry, that's part of the next section!</em> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>Let's create a Pie Chart using this data!</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getClaimsPieChart</span><span class="p">():</span>
+  <span class="n">res</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;Claim_Titles&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;freqClaims&#39;</span><span class="p">]</span>
+
+  <span class="n">claims</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  <span class="n">counts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+  <span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+              <span class="n">names</span><span class="o">=</span><span class="n">claims</span><span class="p">,</span>
+              <span class="n">hole</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+              <span class="p">)</span>
+
+  <span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+  <span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+                    <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">,</span>
+                    <span class="p">)</span>
+  <span class="k">return</span> <span class="n">pie</span>
+</code></pre></div>
+<p>As the outputted result is a map, we can simply use the <code>.keys()</code> and <code>.values()</code> functions
+in Python in order to access the results. The rest is standard pie chart creation via Plotly Express.
+And ta-da, here's our fantastic figure:</p>
+<p><center> <img alt="Custom2" src="../../assets/chap5-8/06_custom2.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="commvsreferrals">CommVsReferrals<a class="headerlink" href="#commvsreferrals" title="Permanent link">&para;</a></h3>
+<p>Next up, we can create a query to <font color='#DD6E0F'>determine if having a larger prescriber network</font> corresponds
+to an increase in average referrals received. In other words, does <strong>being in a prescriber community lead to more business?</strong></p>
+<p>Before we can tackle this question, we need to create two helper queries in GSQL...</p>
+<p>&nbsp; &nbsp;</p>
+<h4 id="helper_nummembers">Helper_NumMembers<a class="headerlink" href="#helper_nummembers" title="Permanent link">&para;</a></h4>
+<p>First, we need to be able to find the number of community members for a given prescriber.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Helper_NumMembers</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;USE GRAPH MyGraph</span>
+<span class="s1">CREATE QUERY Helper_NumMembers(vertex&lt;Prescriber&gt; inputPrescriber) FOR GRAPH MyGraph</span>
+<span class="s1">RETURNS (INT) {</span>
+<span class="s1">  SumAccum&lt;INT&gt; @@numMembers;</span>
+<span class="s1">    SumAccum&lt;int&gt; @@cid;</span>
+
+<span class="s1">    Start=</span><span class="si">{inputPrescriber}</span><span class="s1">;</span>
+<span class="s1">    Start=Select s from Start:s post-accum @@cid += s.communityId;</span>
+
+<span class="s1">    Start = {Prescriber.*};</span>
+
+<span class="s1">    Start = select s from Start:s-(referral:e)-:t</span>
+<span class="s1">            where s.communityId == @@cid and s.communityId == t.communityId</span>
+<span class="s1">            accum @@numMembers += 1;</span>
+
+<span class="s1">  RETURN @@numMembers;</span>
+<span class="s1">}</span>
+<span class="s1">INSTALL QUERY Helper_NumMembers&#39;&#39;&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">gsql</span><span class="p">(</span><span class="n">Helper_NumMembers</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">[]))</span>
+</code></pre></div>
+<p>Let's break it down!</p>
+<ul>
+<li>First, this helper query takes a <strong>Prescriber vertex</strong> as its input. Additionally, it returns
+a type <code>INT</code>, the number of members in the prescriber's community.</li>
+<li>We create <font color='#DD6E0F'>two accumulators</font>, one to store the number of members in the community, and another
+to simply store the inputted prescriber's community ID.</li>
+<li>The inputted prescriber's community ID is stored in the <strong>first SELECT statement</strong></li>
+<li>In the second SELECT statment, we iterate through every prescriber and increment our counter
+only if the community <font color='#DD6E0F'>IDs of two connected prescribers match.</font></li>
+<li>This value (the sum accumulator) is returned, not printed!</li>
+</ul>
+<p>That wasn't so bad to flesh out! Next up, a similar helper function...</p>
+<p>&nbsp; &nbsp;</p>
+<h4 id="helper_numreferrals">Helper_NumReferrals<a class="headerlink" href="#helper_numreferrals" title="Permanent link">&para;</a></h4>
+<p>Now, we need to be able to find the number of referrals for a given prescriber.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Helper_NumReferrals</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;USE GRAPH MyGraph</span>
+<span class="s1">CREATE QUERY Helper_NumReferrals(vertex&lt;Prescriber&gt; inputPrescriber) FOR GRAPH MyGraph</span>
+<span class="s1">RETURNS (INT) {</span>
+
+<span class="s1">  SumAccum&lt;INT&gt; @@numReferrals;</span>
+
+<span class="s1">    Start=</span><span class="si">{inputPrescriber}</span><span class="s1">;</span>
+
+<span class="s1">  referrals = SELECT p1</span>
+<span class="s1">                FROM Start:p1 -(referral:r) -Prescriber:p2</span>
+<span class="s1">                ACCUM @@numReferrals += 1;</span>
+
+<span class="s1">  RETURN @@numReferrals;</span>
+<span class="s1">}</span>
+<span class="s1">INSTALL QUERY Helper_NumReferrals&#39;&#39;&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">gsql</span><span class="p">(</span><span class="n">Helper_NumReferrals</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">[]))</span>
+</code></pre></div>
+<p>This is quite similar to our previous helper function:</p>
+<ul>
+<li>In our first and second line, we <font color='#DD6E0F'>specify the input parameter</font> and return type respectively</li>
+<li>Next, we create a <strong>sum accumulator</strong> to store the number of referrals for the inputted prescriber</li>
+<li>In our select statement, we <font color='#DD6E0F'>iterate through every referral given</font> and increment the counter by 1.</li>
+<li>The results are returned, not printed!</li>
+</ul>
+<p>Using these two helper functions, we can write our main query.</p>
+<p>&nbsp; &nbsp;</p>
+<h4 id="main-query">Main Query<a class="headerlink" href="#main-query" title="Permanent link">&para;</a></h4>
+<p>In order to write our main query, we can simply reference our two helper functions:</p>
+<div class="highlight"><pre><span></span><code><span class="n">CommVsReferrals</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;USE GRAPH MyGraph</span>
+<span class="s1">CREATE QUERY CommVsReferrals() FOR GRAPH MyGraph {</span>
+<span class="s1">  MapAccum&lt;INT, AvgAccum&gt; @@commReferrals;</span>
+
+<span class="s1">  start = {Prescriber.*};</span>
+
+<span class="s1">  allPres = SELECT p</span>
+<span class="s1">              FROM start:p</span>
+<span class="s1">              ACCUM @@commReferrals += (Helper_NumMembers(p) -&gt; Helper_NumReferrals(p));</span>
+
+<span class="s1">  PRINT @@commReferrals as commReferrals;</span>
+<span class="s1">}</span>
+<span class="s1">INSTALL QUERY CommVsReferrals&#39;&#39;&#39;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">gsql</span><span class="p">(</span><span class="n">CommVsReferrals</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">[]))</span>
+</code></pre></div>
+<ul>
+<li>First, we create a <font color='#DD6E0F'>Map Accumulator</font> for each community size and the average number of referrals
+that each member in that community received.</li>
+<li>Next, we <strong>iterate across all prescribers</strong> in our SELECT statement and add the number of members as
+well as the number of referrals. Because of our <code>AvgAccum</code>, we don't have to do any other work!</li>
+</ul>
+<blockquote>
+<p>NOTE: As you may have noticed, <code>AvgAccum</code> does not take a datatype as a parameter!</p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p>With this query installed, we can reference and visualize the results.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getScatterChart</span><span class="p">():</span>
+  <span class="n">referrals</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;CommVsReferrals&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;commReferrals&#39;</span><span class="p">]</span>
+
+  <span class="n">sizes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">referrals</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+  <span class="n">avgs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">referrals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+  <span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">sizes</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">avgs</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">avgs</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">avgs</span><span class="p">)</span>
+  <span class="n">scatter</span><span class="o">.</span><span class="n">update_coloraxes</span><span class="p">(</span><span class="n">colorbar_title</span><span class="o">=</span><span class="s2">&quot;Avg&quot;</span><span class="p">)</span>
+
+  <span class="n">scatter</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+      <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Prescriber Community Size vs. Average Referrals per Prescriber&quot;</span><span class="p">,</span>
+      <span class="n">xaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Prescriber Community Size&quot;</span><span class="p">,</span>
+      <span class="n">yaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Avg Referrals per Prescriber&quot;</span><span class="p">,</span>
+      <span class="n">width</span><span class="o">=</span><span class="mi">1000</span>
+  <span class="p">)</span>
+  <span class="k">return</span> <span class="n">scatter</span>
+</code></pre></div>
+<p>Once again, as the outputted result is a map, we can simply use the <code>.keys()</code>
+and <code>.values()</code> functions in Python in order to access the results. And here's
+the resulting scatter plot.</p>
+<p><center> <img alt="Custom3" src="../../assets/chap5-8/06_custom3.jpg" width="800" /> </center></p>
+<p>Hmm, a spike around 15 members. A coincidence? Maybe. We'll need more data to find out 😄!</p>
+</details>
+<p>&nbsp; &nbsp;</p>
+<p><strong><em>"And finally, we can put together a dashboard using all of what we learned..."</em></strong></p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>TigerGraph Tutorial 04</summary><h2 id="putting-it-together">Putting it Together<a class="headerlink" href="#putting-it-together" title="Permanent link">&para;</a></h2>
+<p>In order to piece everything together, we'll start by storing several components in variables.</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Titles and ListGroups</strong></p>
+<p>First, we'll create a title card as well as a list group to hold all the vertices and edge counts.</p>
+<div class="highlight"><pre><span></span><code>  <span class="n">titleCard</span> <span class="o">=</span>  <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                              <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;TigerGraph&#39;s HealthCare Starter Kit&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">)),</span>
+                            <span class="p">])</span>
+              <span class="p">],</span>
+              <span class="n">color</span><span class="o">=</span><span class="s1">&#39;light&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark</span>
+              <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                  <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+                  <span class="c1">#&quot;margin-left&quot;:&quot;1rem&quot;,</span>
+                  <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                  <span class="p">}</span>
+            <span class="p">)</span>
+
+<span class="n">vItems</span> <span class="o">=</span> <span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">ListGroupItem</span><span class="p">(</span><span class="n">vertex</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">getVertexCount</span><span class="p">(</span><span class="n">vertex</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">getVertexTypes</span><span class="p">()]</span>
+<span class="n">eItems</span> <span class="o">=</span> <span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">ListGroupItem</span><span class="p">(</span><span class="n">edge</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">getEdgeCount</span><span class="p">(</span><span class="n">edge</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;success&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">getEdgeTypes</span><span class="p">()]</span>
+
+<span class="n">listItems</span> <span class="o">=</span> <span class="n">vItems</span> <span class="o">+</span> <span class="n">eItems</span>
+
+<span class="n">statsListGroup</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">ListGroup</span><span class="p">(</span>
+                      <span class="n">listItems</span><span class="p">,</span>
+                      <span class="n">horizontal</span><span class="o">=</span><span class="kc">True</span>
+                  <span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Together1" src="../../assets/chap5-8/06_together1.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Pie, Scatter Chart</strong></p>
+<p>Next up, we'll use our <code>getClaimsPieChart()</code> and <code>getScatterChart()</code> functions from before
+to create two cards.</p>
+<div class="highlight"><pre><span></span><code><span class="n">pieChart</span> <span class="o">=</span> <span class="n">getClaimsPieChart</span><span class="p">()</span>
+<span class="n">scatterChart</span> <span class="o">=</span> <span class="n">getScatterChart</span><span class="p">()</span>
+
+<span class="n">pieChartCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;All Submitted Claims&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Which categories of claims are most frequent?</span><span class="se">\n</span><span class="s2"> Which areas should prescribers focus on?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Pie Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">pieChart</span><span class="p">)</span>
+                              <span class="p">])</span>
+                <span class="p">],</span>
+                <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;50rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                    <span class="p">}</span>
+              <span class="p">)</span>
+
+<span class="n">scatterChartCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Prescriber Communities&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Do communities lead to more business? How do the number of referrals compare to community size?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Scatter Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">scatterChart</span><span class="p">)</span>
+                              <span class="p">])</span>
+                <span class="p">],</span>
+                <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;50rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                    <span class="p">}</span>
+              <span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Together3" src="../../assets/chap5-8/06_together3.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Table, Bar</strong></p>
+<p>We can piece together a function <code>getClaims()</code> that generates our table and bar chart.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getClaims</span><span class="p">(</span><span class="n">person_num</span><span class="p">):</span>
+
+  <span class="n">claims</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">runInstalledQuery</span><span class="p">(</span><span class="s2">&quot;getClaims&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;inputPrescriber&quot;</span><span class="p">:</span> <span class="n">person_num</span><span class="p">})[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;claims&#39;</span><span class="p">]</span>
+  <span class="n">title_map</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">count_list</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">description_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">claim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">claims</span><span class="p">):</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="n">claim</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">][</span><span class="s1">&#39;CodeGroupTitle&#39;</span><span class="p">]</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">claim</span><span class="p">[</span><span class="s1">&#39;attributes&#39;</span><span class="p">][</span><span class="s1">&#39;ICD10CodeDescription&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+      <span class="n">desc</span> <span class="o">=</span> <span class="s2">&quot;None provided!&quot;</span>
+
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">title_map</span><span class="p">:</span>
+      <span class="n">title_map</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="n">title_map</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">title_map</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">count_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">description_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+
+
+  <span class="c1"># We&#39;ll create a table w/ the Descriptions!</span>
+
+  <span class="n">descriptionData</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">count_list</span><span class="p">,</span> <span class="n">description_list</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Claim Num&#39;</span><span class="p">,</span> <span class="s1">&#39;Claim Description&#39;</span><span class="p">])</span>
+  <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">Thead</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Tr</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Th</span><span class="p">(</span><span class="s2">&quot;Claim Number&quot;</span><span class="p">),</span> <span class="n">html</span><span class="o">.</span><span class="n">Th</span><span class="p">(</span><span class="s2">&quot;Claim Description&quot;</span><span class="p">)]))]</span>
+
+  <span class="n">table</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+      <span class="n">dbc</span><span class="o">.</span><span class="n">Table</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">descriptionData</span><span class="p">,</span> <span class="n">striped</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bordered</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+      <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;overflowY&#39;</span><span class="p">:</span><span class="s1">&#39;scroll&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">:</span><span class="s1">&#39;450px&#39;</span><span class="p">}</span>
+  <span class="p">)</span>
+
+  <span class="c1"># We&#39;ll create a bar chart w/ the Claim Titles</span>
+
+  <span class="n">titleList</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">countList</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">title_map</span><span class="p">:</span>
+    <span class="n">titleList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+    <span class="n">countList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title_map</span><span class="p">[</span><span class="n">entry</span><span class="p">])</span>
+
+  <span class="n">countData</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">titleList</span><span class="p">,</span> <span class="n">countList</span><span class="p">)),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Claim Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Count&#39;</span><span class="p">])</span>
+  <span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">countData</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Claim Title&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Count&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">color_discrete_sequence</span> <span class="o">=</span><span class="p">[</span><span class="s2">&quot;#DDEE00&quot;</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">countData</span><span class="p">))</span>
+
+  <span class="n">bar</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">categoryorder</span><span class="o">=</span><span class="s1">&#39;category ascending&#39;</span><span class="p">)</span>
+  <span class="n">bar</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">template</span><span class="o">=</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">,</span> <span class="n">xaxis_title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+  <span class="n">max_key</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">title_map</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">title_map</span><span class="o">.</span> <span class="n">get</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">claims</span><span class="p">),</span> <span class="n">table</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="n">max_key</span>
+</code></pre></div>
+<p>This function will also return the number of claims as well as the highest claim category (<code>max_key</code>).</p>
+<p><center> <img alt="Together4" src="../../assets/chap5-8/06_together4.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Network Graph, Prescriber Info</strong></p>
+<p>We can use our <code>getNetwork()</code> function from the "Print_Community" section as well as <code>getClaims()</code>
+from above in order to create <code>getPrescriberInfo()</code>. This function will be inputted a prescriber
+and return the calculated statistics and figures regarding the prescriber. Although this function
+may seem long, most of it is just stylistic cards!</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getPrescriberInfo</span><span class="p">(</span><span class="n">person_num</span><span class="p">):</span>
+  <span class="n">network</span> <span class="o">=</span> <span class="n">getNetwork</span><span class="p">(</span><span class="n">person_num</span><span class="p">)</span>
+  <span class="n">number</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">bar</span><span class="p">,</span> <span class="n">max_title</span> <span class="o">=</span> <span class="n">getClaims</span><span class="p">(</span><span class="n">person_num</span><span class="p">)</span>
+
+  <span class="n">prescriberTitleCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">dbc</span><span class="o">.</span><span class="n">Badge</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;  Prescriber &quot;</span> <span class="o">+</span> <span class="n">person_num</span> <span class="o">+</span> <span class="s2">&quot;&#39;s Claims  &quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;light&quot;</span><span class="p">)),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This individual has a total of &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; claims. Their most referred to specialization is: &quot;</span> <span class="o">+</span> <span class="n">max_title</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">)),</span>  
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;98rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="n">tableCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Claims by Prescriber&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;A detailed description of each claim...&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                        <span class="n">table</span>
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;50rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="n">barCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Claims by Category&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Which claims are being prescribed most?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Bar Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">bar</span><span class="p">)</span>
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;50rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="n">networkCard</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+          <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Prescriber Network&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;Who&#39;s part of this prescriber&#39;s community?&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                        <span class="n">network</span>
+                      <span class="p">])</span>
+        <span class="p">],</span>
+        <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;50rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+            <span class="p">}</span>
+      <span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">prescriberTitleCard</span><span class="p">,</span> <span class="n">tableCard</span><span class="p">,</span> <span class="n">barCard</span><span class="p">,</span> <span class="n">networkCard</span><span class="p">,</span> <span class="n">network</span>
+</code></pre></div>
+<p>As seen, we store all the figures as variables at the top. Next, we create cards for each.</p>
+<p><center> <img alt="Together5" src="../../assets/chap5-8/06_together5.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<h4 id="dashboard-itself">Dashboard Itself<a class="headerlink" href="#dashboard-itself" title="Permanent link">&para;</a></h4>
+<p>With all of the pieces ready to go, we can finally create our new dashboard.</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">person_num</span> <span class="o">=</span> <span class="s2">&quot;pre78&quot;</span>
+<span class="n">prescriberTitleCard</span><span class="p">,</span> <span class="n">tableCard</span><span class="p">,</span> <span class="n">barCard</span><span class="p">,</span> <span class="n">networkCard</span><span class="p">,</span> <span class="n">network</span> <span class="o">=</span> <span class="n">getPrescriberInfo</span><span class="p">(</span><span class="n">person_num</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Center</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">titleCard</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">),</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="n">statsListGroup</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">),</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Br</span><span class="p">(),</span>
+
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+                  <span class="n">pieChartCard</span><span class="p">,</span>
+                  <span class="n">scatterChartCard</span><span class="p">,</span>
+                <span class="p">],</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">),</span>
+
+                <span class="n">html</span><span class="o">.</span><span class="n">Hr</span><span class="p">(),</span>
+
+                <span class="n">prescriberTitleCard</span><span class="p">,</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                      <span class="n">tableCard</span><span class="p">,</span>
+                      <span class="n">network</span>
+
+                  <span class="p">]),</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                       <span class="n">barCard</span><span class="p">,</span>
+                       <span class="n">networkCard</span>    
+                  <span class="p">])</span>
+                <span class="p">],</span> <span class="n">justify</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+
+             <span class="p">]))</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Having created all those variables earlier makes the app layout far easier to read and understand.</p>
+<p>This is a good practice for creating dashboards, as it allows for easier modification and testing
+instead of having to scroll through hundreds of lines of card bodies, figures, and more. And now,
+our hard work pays off:</p>
+<p><center> <img alt="Together6" src="../../assets/chap5-8/06_together6.jpg" width="800" /> </center></p>
+</details>
+<p>The TigerGraph protector looks at us and smiles.</p>
+<p><strong><em>"You've come a long way. Yet there's still more to learn in order to complete your quest. Head east,
+continue past the Tundra, and find the <font color='#DD6E0F'>Elysium of Elements</font>. There, you'll truly be able to access everything
+that you can create using TigerGraph + Plotly..."</em></strong></p>
+<p>&nbsp; &nbsp;</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>All code segments from this chapter can be found in this
+<a href="https://colab.research.google.com/drive/1RRirZeUi_zSBEDS9lDJw1dsxth_V0f-9#scrollTo=7X60dI-5GZFi">Colab Notebook</a>.
+Feel free to follow along!&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Everything we've installed so far (prerequistes for next section):
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">pyTigerGraph</span>
+<span class="kn">import</span> <span class="nn">pyTigerGraph</span> <span class="k">as</span> <span class="nn">tg</span>
+
+<span class="n">TG_SUBDOMAIN</span> <span class="o">=</span> <span class="s1">&#39;healthcare-dash&#39;</span>
+<span class="n">TG_HOST</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">TG_SUBDOMAIN</span> <span class="o">+</span> <span class="s2">&quot;.i.tgcloud.io&quot;</span> <span class="c1"># GraphStudio Link</span>
+
+<span class="n">TG_USERNAME</span> <span class="o">=</span> <span class="s2">&quot;tigergraph&quot;</span> <span class="c1"># This should remain the same...</span>
+<span class="n">TG_PASSWORD</span> <span class="o">=</span> <span class="s2">&quot;tigergraph&quot;</span> <span class="c1"># Shh, it&#39;s our password!</span>
+<span class="n">TG_GRAPHNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGraph&quot;</span> <span class="c1"># The name of the graph</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">TigerGraphConnection</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">TG_HOST</span><span class="p">,</span> <span class="n">graphname</span><span class="o">=</span><span class="n">TG_GRAPHNAME</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">TG_USERNAME</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">TG_PASSWORD</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">apiToken</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getToken</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">createSecret</span><span class="p">())</span>
+
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">dash</span>
+
+<span class="kn">import</span> <span class="nn">dash</span>
+<span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
+<span class="kn">from</span> <span class="nn">jupyter_dash</span> <span class="kn">import</span> <span class="n">JupyterDash</span>
+
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+<span class="kn">import</span> <span class="nn">dash_core_components</span> <span class="k">as</span> <span class="nn">dcc</span>
+
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">dash</span><span class="o">-</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">components</span>
+<span class="kn">import</span> <span class="nn">dash_bootstrap_components</span> <span class="k">as</span> <span class="nn">dbc</span>
+
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">dash</span><span class="o">-</span><span class="n">cytoscape</span>
+<span class="kn">import</span> <span class="nn">dash_cytoscape</span> <span class="k">as</span> <span class="nn">cyto</span>
+</code></pre></div>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+                  
+                
+              
+  <footer class="tx-content__footer md-typeset">
+    <a href="https://tigergraph.com" title="TigerGraph Website">
+      <hr>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 3h2v2H5v5a2 2 0 01-2 2 2 2 0 012 2v5h2v2H5c-1.07-.27-2-.9-2-2v-4a2 2 0 00-2-2H0v-2h1a2 2 0 002-2V5a2 2 0 012-2m14 0a2 2 0 012 2v4a2 2 0 002 2h1v2h-1a2 2 0 00-2 2v4a2 2 0 01-2 2h-2v-2h2v-5a2 2 0 012-2 2 2 0 01-2-2V5h-2V3h2m-7 12a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m-4 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m8 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1z"/></svg>
+      </span>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </span>
+      <span class="twemoji tx-heart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 20.408c-.492.308-.903.546-1.192.709-.153.086-.308.17-.463.252h-.002a.75.75 0 01-.686 0 16.709 16.709 0 01-.465-.252 31.147 31.147 0 01-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31.146 31.146 0 0114 20.408z"/></svg>
+      </span>
+      <hr>
+    </a>
+  </footer>
+
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../05_sheriff-styles/" title="Ch 05 - Sheriff Styles" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Ch 05 - Sheriff Styles
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../07_multi-monster/" title="Ch 07 - The Multi-Page Monsters" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Ch 07 - The Multi-Page Monsters
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 TigerGraph
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/tigergraph/ecosys" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://discord.gg/F2c9b9v" target="_blank" rel="noopener" title="discord.gg" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.youtube.com/c/TigerGraph/videos" target="_blank" rel="noopener" title="www.youtube.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/TigerGraphDB" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.linkedin.com/company/tigergraph/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.twitch.tv/tigergraph" target="_blank" rel="noopener" title="www.twitch.tv" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M391.17,103.47H352.54v109.7h38.63ZM285,103H246.37V212.75H285ZM120.83,0,24.31,91.42V420.58H140.14V512l96.53-91.42h77.25L487.69,256V0ZM449.07,237.75l-77.22,73.12H294.61l-67.6,64v-64H140.14V36.58H449.07Z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.c3dc8c49.min.js"></script>
+      <script src="../../assets/javascripts/bundle.30071cf1.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ["tabs", "navigation.top", "navigation.sections", "navigation.tracking", "navigation.tabs.sticky"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.8e2cddea.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

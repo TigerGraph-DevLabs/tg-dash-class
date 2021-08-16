@@ -1,0 +1,1900 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+      
+      
+        <link rel="canonical" href="https://advit-tg.github.io/dash-class/learn/03_port-plotly/">
+      
+      
+        <meta name="author" content="Advit Deepak">
+      
+      <link rel="shortcut icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-5.5.3">
+    
+    
+      
+        <title>Ch 03 - Presenting Port Plotly - TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e584d62f.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cef4c379.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#ff7043">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+  
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.addEventListener("click", ev => {
+        if (ev.target instanceof HTMLElement) {
+          var el = ev.target.closest("a[href^=http]")
+          if (el)
+            ga("send", "event", "outbound", "click", el.href)
+        }
+      })
+    })
+  </script>
+
+    
+  
+  
+    
+  
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Ch 03 - Presenting Port Plotly">
+  <meta property="og:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta property="og:url" content="https://advit-tg.github.io/dash-class/learn/03_port-plotly/">
+  <meta property="og:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@squidfunk">
+  <meta name="twitter:creator" content="@squidfunk">
+  <meta name="twitter:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Ch 03 - Presenting Port Plotly">
+  <meta name="twitter:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta name="twitter:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <link rel="stylesheet" href="../../assets/stylesheets/overrides.011ebae6.min.css">
+
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#presenting-port-plotly" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-announce">
+          <div class="md-announce__inner md-grid md-typeset">
+            
+  <a href="https://discord.gg/F2c9b9v">
+    Join TigerGraph's <strong>developer chat</strong> on
+    <span class="twemoji">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+    </span>
+  </a>
+
+          </div>
+        </aside>
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-header-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Ch 03 - Presenting Port Plotly
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../intro/A_01_devoid-of-dash/" class="md-tabs__link">
+          Why Dashboard?
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../quick/01_notes/" class="md-tabs__link">
+          Quick Start
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../01_installation-island/" class="md-tabs__link md-tabs__link--active">
+          Adventure
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../examples/" class="md-tabs__link">
+          Examples
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../resources/" class="md-tabs__link">
+          Resources
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../community/" class="md-tabs__link">
+          Community
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Why Dashboard?
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Why Dashboard?" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Why Dashboard?
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_01_devoid-of-dash/" title="Devoid of Dash" class="md-nav__link">
+      Devoid of Dash
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_02_getting-started/" title="Trusty Toolbox" class="md-nav__link">
+      Trusty Toolbox
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Quick Start
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Quick Start
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/01_notes/" title="Installation, First Dash App" class="md-nav__link">
+      Installation, First Dash App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/02_notes/" title="Plotly, Dash, Styling Elements" class="md-nav__link">
+      Plotly, Dash, Styling Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/03_notes/" title="TigerGraph (pyTG, queries) 🐯" class="md-nav__link">
+      TigerGraph (pyTG, queries) 🐯
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/04_notes/" title="Multi-Page Layout, Callbacks" class="md-nav__link">
+      Multi-Page Layout, Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/05_notes/" title="Navigation - Navbars, Sidebars" class="md-nav__link">
+      Navigation - Navbars, Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/06_notes/" title="Misc. Elements, Deployment" class="md-nav__link">
+      Misc. Elements, Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Adventure
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Adventure" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Adventure
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../01_installation-island/" title="Ch 01 - Installation Island" class="md-nav__link">
+      Ch 01 - Installation Island
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../02_setup-sea/" title="Ch 02 - Sailing through Setup Sea" class="md-nav__link">
+      Ch 02 - Sailing through Setup Sea
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Ch 03 - Presenting Port Plotly
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Ch 03 - Presenting Port Plotly" class="md-nav__link md-nav__link--active">
+      Ch 03 - Presenting Port Plotly
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plotly-express-and-pandas" class="md-nav__link">
+    Plotly Express and Pandas
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bar-charts" class="md-nav__link">
+    Bar Charts
+  </a>
+  
+    <nav class="md-nav" aria-label="Bar Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#line-charts" class="md-nav__link">
+    Line Charts
+  </a>
+  
+    <nav class="md-nav" aria-label="Line Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data_1" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure_1" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pie-charts" class="md-nav__link">
+    Pie Charts
+  </a>
+  
+    <nav class="md-nav" aria-label="Pie Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data_2" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure_2" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donuts-slices" class="md-nav__link">
+    Donuts, Slices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scatter-plots" class="md-nav__link">
+    Scatter Plots
+  </a>
+  
+    <nav class="md-nav" aria-label="Scatter Plots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data_3" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure_3" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../04_dash-delta/" title="Ch 04 - Dash's Delta" class="md-nav__link">
+      Ch 04 - Dash's Delta
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../05_sheriff-styles/" title="Ch 05 - Sheriff Styles" class="md-nav__link">
+      Ch 05 - Sheriff Styles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../06_tigergraph-tundra/" title="Ch 06 - The TigerGraph Tundra" class="md-nav__link">
+      Ch 06 - The TigerGraph Tundra
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../07_multi-monster/" title="Ch 07 - The Multi-Page Monsters" class="md-nav__link">
+      Ch 07 - The Multi-Page Monsters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../08_callback-cliff/" title="Ch 08 - Confronted by Callbacks" class="md-nav__link">
+      Ch 08 - Confronted by Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../09_northern-navbars/" title="Ch 09 - Northern Navbars" class="md-nav__link">
+      Ch 09 - Northern Navbars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../10_southern-sidebars/" title="Ch 10 - Southern Sidebars" class="md-nav__link">
+      Ch 10 - Southern Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../11_elysium-elements/" title="Ch 11 - Elysium of Elements" class="md-nav__link">
+      Ch 11 - Elysium of Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../12_destination-deployment/" title="Ch 12 - Destination Deployment" class="md-nav__link">
+      Ch 12 - Destination Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Examples
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Examples" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../examples/" title="Exquisite Examples" class="md-nav__link">
+      Exquisite Examples
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Resources
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Resources" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Resources
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../resources/" title="Resources" class="md-nav__link">
+      Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Community
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Community" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Community
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../community/" title="Get Connected" class="md-nav__link">
+      Get Connected
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plotly-express-and-pandas" class="md-nav__link">
+    Plotly Express and Pandas
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bar-charts" class="md-nav__link">
+    Bar Charts
+  </a>
+  
+    <nav class="md-nav" aria-label="Bar Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#line-charts" class="md-nav__link">
+    Line Charts
+  </a>
+  
+    <nav class="md-nav" aria-label="Line Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data_1" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure_1" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pie-charts" class="md-nav__link">
+    Pie Charts
+  </a>
+  
+    <nav class="md-nav" aria-label="Pie Charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data_2" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure_2" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#donuts-slices" class="md-nav__link">
+    Donuts, Slices
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scatter-plots" class="md-nav__link">
+    Scatter Plots
+  </a>
+  
+    <nav class="md-nav" aria-label="Scatter Plots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loading-data_3" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling-figure_3" class="md-nav__link">
+    Styling Figure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+  
+                
+                
+                  
+                
+                
+                <h1 id="presenting-port-plotly">Presenting Port Plotly 🧱<a class="headerlink" href="#presenting-port-plotly" title="Permanent link">&para;</a></h1>
+<p><center> <img alt="Page3" src="../../assets/banners/section3.svg" width="800" /> </center></p>
+<p>Looking around, there are hundreds of stalls set up throughout the port, each
+with a different banner and symbol hung up next to them. A sign labelled <font color='#DD6E0F'> <strong><em>Visitor's Guide</em></strong> </font> catches our eyes. Approaching it, we find a
+small box of pamphlets attached onto the sign. As we begin to read, we pull
+out our laptop and once again begin to take note of the strange wisdom.</p>
+<p><em>"Welcome! In order to <font color='#DD6E0F'> fully experience Plotly</font>, we need to go over a few things..."</em></p>
+<details class="info" open="open"><summary>Plotly Pointers 01</summary><h2 id="plotly-express-and-pandas">Plotly Express and Pandas<a class="headerlink" href="#plotly-express-and-pandas" title="Permanent link">&para;</a></h2>
+<p>Before beginning to graph with Plotly, we need to <strong>import Plotly Express!</strong></p>
+<p>Plotly Express is a <font color='#DD6E0F'>high-level wrapper that allows for the creation of
+simple visualizations</font> with minimal lines of code. It has numerous features,
+yet is still <strong>intuitive and consistent</strong> in terms of the
+syntax used across multiple chart types.</p>
+<p>To import the library, we run the following line:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+</code></pre></div>
+<p>Next, we need to import the <strong>Pandas</strong> library.</p>
+<p>Pandas allows for the creation of dataframes, structured storage systems
+that integrate easily with Plotly Express. These dataframes can be
+thought of as <em>data tables or spreadsheets</em>.</p>
+<p>To import the library, we run the following line:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+<p>And that's it!</p>
+</details>
+<p>The last line of the Visitor's Guide reads,
+<em>"Learn more by visiting the stalls at our marketplace!"</em></p>
+<p>With no other leads, we set off for the marketplace. First shop, <em>"Buster's Bar Charts"</em>.</p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>Plotly Pointers 02</summary><h2 id="bar-charts">Bar Charts<a class="headerlink" href="#bar-charts" title="Permanent link">&para;</a></h2>
+<p>There are a few options to create a bar chart!</p>
+<h3 id="loading-data">Loading Data<a class="headerlink" href="#loading-data" title="Permanent link">&para;</a></h3>
+<p><strong>With DataFrame</strong></p>
+<p>When creating a bar chart, we can use a <em>Pandas Dataframe</em>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Animals&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Counts&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Animals&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">)</span>
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
+</code></pre></div>
+<p>As seen, we <font color='#DD6E0F'>pass in the dataframe and specify the x and y column titles</font>.</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Without DataFrame</strong></p>
+<p>Here, we can simply pass in two arrays, one for each of x and y.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">counts</span><span class="p">)</span>
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Even if we don't create a dataframe, Plotly will <em>perform this</em>
+<em>action under-the-hood</em> when generating the bar chart.</p>
+<p>&nbsp; &nbsp;</p>
+<p>In both cases, we get the same result. And voila, here are our two bar charts!</p>
+<p><center> <img alt="BarChart1" src="../../assets/chap1-4/03_barChart1.jpg" width="800" /> </center></p>
+<p><center> <img alt="BarChart2" src="../../assets/chap1-4/03_barChart2.jpg" width="800" /> </center></p>
+<p>Ahh, you may have noticed a small difference: <strong>the axis labels!</strong></p>
+<p>When we passed in two arrays, we <font color='#DD6E0F'>never specified what the axes were to be
+titled</font>. How do we fix this and further style our charts? To that, we turn
+to <em>Plotly's myriad ways of customizing charts</em>.</p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="styling-figure">Styling Figure<a class="headerlink" href="#styling-figure" title="Permanent link">&para;</a></h3>
+<p>There are many ways to style a bar chart. Here are some of the most
+important ones!</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Adding a Title, Axis Labels</strong></p>
+<p>We can add a title with the following function, <code>bar.update_layout()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">counts</span><span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Animals vs. Appendages&quot;</span><span class="p">,</span> <span class="c1"># Adding a title</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;The Amazing Animals&quot;</span><span class="p">,</span> <span class="c1"># Changing x-axis label</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;How many appendages?&quot;</span><span class="p">,</span> <span class="c1"># Changing y-axis label</span>
+    <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">family</span><span class="o">=</span><span class="s2">&quot;Courier New, monospace&quot;</span><span class="p">,</span> <span class="c1"># The font style</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;RebeccaPurple&quot;</span><span class="p">,</span> <span class="c1"># The font color</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">18</span> <span class="c1"># The font size</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="BarChart3" src="../../assets/chap1-4/03_barChart3.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Adding Color</strong></p>
+<p>In order to individually select colors for our bar chart, we can use the following:</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="c1"># As seen, each bar segment that hasn&#39;t had a discrete color entered will be shown in black</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">color_discrete_sequence</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;#65ff31&#39;</span><span class="p">,</span> <span class="s1">&#39;#4a4aff&#39;</span><span class="p">,</span> <span class="s1">&#39;#aa00aa&#39;</span><span class="p">]])</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="BarChart4" src="../../assets/chap1-4/03_barChart4.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>We can also use the following argument to make <font color='#DD6E0F'>each column visually represent its value</font>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Animals&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Counts&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+
+<span class="c1"># Creates a side color chart --&gt; each color represents count</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Animals&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">)</span>
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="BarChart5" src="../../assets/chap1-4/03_barChart5.jpg" width="800" /> </center></p>
+<p>As seen, it's just a matter of adding the <strong>"color"</strong> argument!</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Changing Orientation</strong></p>
+<p>In order to make the bar chart horizontal, we can simply add the <code>orientation='h'</code> argument.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="c1"># Notice that we&#39;ve had to switch the axes!</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="BarChart6" src="../../assets/chap1-4/03_barChart6.jpg" width="800" /> </center></p>
+<blockquote>
+<p>NOTE: As mentioned in the above comments, we've had to <font color='#DD6E0F'>switch the axes in this horizontal layout!</font></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Width and Height</strong></p>
+<p>These can be easily changed via the <code>width</code> and <code>height</code> keywords.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="BarChart7" src="../../assets/chap1-4/03_barChart7.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>All Put Together</strong></p>
+<p>Using these elements, we can create the following bar chart:</p>
+<div class="highlight"><pre><span></span><code><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Animals&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Counts&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+<span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Animals&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Animals vs. Appendages&quot;</span><span class="p">,</span> <span class="c1"># Adding a title</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;The Amazing Animals&quot;</span><span class="p">,</span> <span class="c1"># Changing x-axis label</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;How many appendages?&quot;</span><span class="p">,</span> <span class="c1"># Changing y-axis label</span>
+    <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">family</span><span class="o">=</span><span class="s2">&quot;Courier New, monospace&quot;</span><span class="p">,</span> <span class="c1"># The font style</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;RebeccaPurple&quot;</span><span class="p">,</span> <span class="c1"># The font color</span>
+        <span class="n">size</span><span class="o">=</span><span class="mi">18</span> <span class="c1"># The font size</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">bar</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="BarChart8" src="../../assets/chap1-4/03_barChart8.jpg" width="800" /> </center></p>
+<blockquote>
+<p>NOTE: For more information, make sure to check out the following:
+<a href="https://plotly.com/python/bar-charts/">Plotly Bar Charts</a>,
+<a href="https://plotly.com/python-api-reference/generated/plotly.express.bar">px.Bar()</a></p>
+</blockquote>
+</details>
+<p>The shopowner exclaims, <em>"There's your intro to bar charts! Next, I'd recommend</em>
+<em>checking out <font color='#DD6E0F'>Lenny's Line Charts</font>. He's a cousin</em>
+<em>of mine and our work is quite similar... "</em></p>
+<p>Walking over, we pull out our laptop and continue our notes...</p>
+<details class="info" open="open"><summary>Plotly Pointers 03</summary><h2 id="line-charts">Line Charts<a class="headerlink" href="#line-charts" title="Permanent link">&para;</a></h2>
+<p>There are a few options to create a line chart!</p>
+<h3 id="loading-data_1">Loading Data<a class="headerlink" href="#loading-data_1" title="Permanent link">&para;</a></h3>
+<p>Once again, we can either use a Pandas Dataframe or just proceed with arrays!</p>
+<p><strong>With DataFrame</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Year&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">],</span>
+    <span class="s1">&#39;Carbon per Capita&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span>    <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Carbon per Capita&#39;</span><span class="p">)</span>
+<span class="n">line</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>As seen, we <font color='#DD6E0F'>pass in the dataframe and specify the x and y column titles</font>.</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Without DataFrame</strong></p>
+<p>Here, we can simply pass in two arrays, one for each of x and y.</p>
+<div class="highlight"><pre><span></span><code><span class="n">year</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">carbon</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span> <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon</span><span class="p">)</span>
+<span class="n">line</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Even if we don't create a dataframe, Plotly will <em>perform this</em>
+<em>action under-the-hood</em> when generating the line chart.</p>
+<p>&nbsp; &nbsp;</p>
+<p>In both cases, we get the same result. And voila, here are our two line charts!</p>
+<p><center> <img alt="BarChart1" src="../../assets/chap1-4/03_lineChart1.jpg" width="800" /> </center></p>
+<p><center> <img alt="BarChart2" src="../../assets/chap1-4/03_lineChart2.jpg" width="800" /> </center></p>
+<h3 id="styling-figure_1">Styling Figure<a class="headerlink" href="#styling-figure_1" title="Permanent link">&para;</a></h3>
+<p>The methods to style a line chart are very similar to styling a bar chart!
+However, one neat feature we haven't covered yet is traces. These are quite
+effective at visualizing multiple sets of data on the same set of axes.</p>
+<p>Let's take a closer look!</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Multiple Traces</strong></p>
+<p>In order to add multiple traces, we turn to the Plotly Graph Objects library.</p>
+<p>To import this library, we use the following line:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+</code></pre></div>
+<p>Next, we can create our traces with the <code>.add_trace()</code> function.</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">year</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">carbon_USA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span> <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+<span class="n">carbon_AUS</span> <span class="o">=</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">15.3</span><span class="p">,</span>   <span class="mf">15.5</span><span class="p">,</span>   <span class="mf">15.6</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">17.7</span><span class="p">,</span>   <span class="mf">17.5</span><span class="p">,</span>   <span class="mf">17.1</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">,</span>   <span class="mf">15.4</span><span class="p">,</span>   <span class="mf">16.9</span><span class="p">,</span>   <span class="mf">16.8</span><span class="p">]</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_USA</span><span class="p">))</span>
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_AUS</span><span class="p">))</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+Each trace adds a new line (the name <code>go.Scatter()</code> is a bit misleading!)</p>
+<p><center> <img alt="LineChart3" src="../../assets/chap1-4/03_lineChart3.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Styling Traces</strong></p>
+<p>In order to style these traces and change their legend names from 't', we can add the following:</p>
+<div class="highlight"><pre><span></span><code><span class="n">year</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">carbon_USA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span> <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+<span class="n">carbon_AUS</span> <span class="o">=</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">15.3</span><span class="p">,</span>   <span class="mf">15.5</span><span class="p">,</span>   <span class="mf">15.6</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">17.7</span><span class="p">,</span>   <span class="mf">17.5</span><span class="p">,</span>   <span class="mf">17.1</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">,</span>   <span class="mf">15.4</span><span class="p">,</span>   <span class="mf">16.9</span><span class="p">,</span>   <span class="mf">16.8</span><span class="p">]</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_USA</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;MediumPurple&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;USA Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_AUS</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;LightSeaGreen&#39;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;AUS Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Adding the <code>marker=dict(color='MediumPurple')</code> dictionary allows us to change the color of the two traces.
+Additionally, the <code>name</code> argument lets us distinguish and label the two traces. Here's the result!</p>
+<p><center> <img alt="LineChart4" src="../../assets/chap1-4/03_lineChart4.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>We can further style these traces by exploring the <code>marker</code> dictionary:</p>
+<div class="highlight"><pre><span></span><code><span class="n">year</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">carbon_USA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span> <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+<span class="n">carbon_AUS</span> <span class="o">=</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">15.3</span><span class="p">,</span>   <span class="mf">15.5</span><span class="p">,</span>   <span class="mf">15.6</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">17.7</span><span class="p">,</span>   <span class="mf">17.5</span><span class="p">,</span>   <span class="mf">17.1</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">,</span>   <span class="mf">15.4</span><span class="p">,</span>   <span class="mf">16.9</span><span class="p">,</span>   <span class="mf">16.8</span><span class="p">]</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_USA</span><span class="p">,</span>
+                          <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;MediumPurple&#39;</span><span class="p">),</span>
+                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;USA Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_AUS</span><span class="p">,</span>
+                          <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;LightSeaGreen&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">),</span>
+                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;AUS Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>As seen below, the size and symbols for each trace can be customized as well!</p>
+<p><center> <img alt="LineChart5" src="../../assets/chap1-4/03_lineChart5.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>All Put Together</strong></p>
+<p>Using these elements and our stylings from the previous section, we can create the following:</p>
+<div class="highlight"><pre><span></span><code><span class="n">year</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">]</span>
+<span class="n">carbon_USA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span> <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+<span class="n">carbon_AUS</span> <span class="o">=</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">15.3</span><span class="p">,</span>   <span class="mf">15.5</span><span class="p">,</span>   <span class="mf">15.6</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">17.7</span><span class="p">,</span>   <span class="mf">17.5</span><span class="p">,</span>   <span class="mf">17.1</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">,</span>   <span class="mf">15.4</span><span class="p">,</span>   <span class="mf">16.9</span><span class="p">,</span>   <span class="mf">16.8</span><span class="p">]</span>
+
+<span class="n">line</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_USA</span><span class="p">,</span>
+                          <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;MediumPurple&#39;</span><span class="p">),</span>
+                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;USA Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_AUS</span><span class="p">,</span>
+                          <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;LightSeaGreen&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">),</span>
+                          <span class="n">name</span><span class="o">=</span><span class="s2">&quot;AUS Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Carbon Emissions since 1980 (per capita)&quot;</span><span class="p">,</span>
+    <span class="n">xaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Year&quot;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Annual Emissions in Tons (per capita)&quot;</span><span class="p">,</span>
+    <span class="n">plot_bgcolor</span> <span class="o">=</span> <span class="s1">&#39;DarkGrey&#39;</span><span class="p">,</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">1600</span>
+<span class="p">)</span>
+
+<span class="n">line</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="LineChart6" src="../../assets/chap1-4/03_lineChart6.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<blockquote>
+<p>NOTE: For more information, make sure to check out the following:
+<a href="https://plotly.com/python/line-charts/">Plotly Line Charts</a>,
+<a href="https://plotly.com/python-api-reference/generated/plotly.express.line">px.line()</a></p>
+</blockquote>
+</details>
+<p>Line charts, check ✅.</p>
+<p>A delicious aroma catches our scent, drawing us away from the stall and towards a
+round-shaped bakery. The shopowner smiles and beckons, <font color='#DD6E0F'>"Welcome to Pepé's Pie Charts!"</font></p>
+<p>Laptop opened, we begin to listen...</p>
+<details class="info" open="open"><summary>Plotly Pointers 04</summary><h2 id="pie-charts">Pie Charts<a class="headerlink" href="#pie-charts" title="Permanent link">&para;</a></h2>
+<p>There are a few options to create a pie chart!</p>
+<h3 id="loading-data_2">Loading Data<a class="headerlink" href="#loading-data_2" title="Permanent link">&para;</a></h3>
+<p>When creating a bar chart, we can use a <em>Pandas Dataframe</em>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Animals&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Counts&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">raw_data</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;Animals&#39;</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>As seen, we <font color='#DD6E0F'>pass in the dataframe and specify the x and y column titles</font>.</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Without DataFrame</strong></p>
+<p>Here, we can simply pass in two arrays, one for each of x and y.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Even if we don't create a dataframe, Plotly will <em>perform this</em>
+<em>action under-the-hood</em> when generating the pie chart.</p>
+<p>&nbsp; &nbsp;</p>
+<p>In both cases, we get the same result. And voila, here are our two bar charts!</p>
+<p><center> <img alt="PieChart1" src="../../assets/chap1-4/03_pieChart1.jpg" width="800" /> </center></p>
+<p><center> <img alt="PieChart1" src="../../assets/chap1-4/03_pieChart1.jpg" width="800" /> </center></p>
+<p>Unlike with bar charts and line charts, there are truly no differences between
+each!</p>
+<p>This is mainly because there are no axes which need labelling 😅.</p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="styling-figure_2">Styling Figure<a class="headerlink" href="#styling-figure_2" title="Permanent link">&para;</a></h3>
+<p>There are many ways to style a bar chart. Here are some of the most
+important ones!</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Adding Title, Labels</strong></p>
+<p>In order to add a title, we can simply pass in the <code>title</code> argument. To change the
+percentages in each slice into labels, we can use the <code>.update_traces()</code> method. The
+width of the plot is simply changed via the <code>.update_layouts()</code> method, as done previously.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The Animals of Old McDonald&#39;s Farm&quot;</span><span class="p">,</span>
+             <span class="p">)</span>
+
+<span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span> <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="PieChart2" src="../../assets/chap1-4/03_pieChart2.jpg" width="800" /> </center></p>
+<p>The title can be centered with the <code>title_x</code> argument, which ranges from 0 to 1.
+Therefore, setting its value to 0.5 will result in a centered title. Additionally,
+the <code>.update_traces()</code> method can be modified to include percentages.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The Animals of Old McDonald&#39;s Farm&quot;</span><span class="p">,</span>
+             <span class="p">)</span>
+
+<span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span> <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>And here's our centered title (relative to the pie chart).</p>
+<p><center> <img alt="PieChart3" src="../../assets/chap1-4/03_pieChart3.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="donuts-slices">Donuts, Slices<a class="headerlink" href="#donuts-slices" title="Permanent link">&para;</a></h3>
+<p>Some neat extensions of pie charts includes donuts and slices!</p>
+<p>In order to create a donut chart, we simply need to add the <code>hole=0.2</code> argument.</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The Animals of Old McDonald&#39;s Farm&quot;</span><span class="p">,</span>
+             <span class="n">hole</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+             <span class="p">)</span>
+
+<span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span> <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="PieChart4" src="../../assets/chap1-4/03_pieChart4.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>In order to highlight specific slices or data values, we can use the <code>pull</code> argument.</p>
+<p>Here's an example highlighting the Pig slice!</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The Animals of Old McDonald&#39;s Farm&quot;</span><span class="p">,</span>
+             <span class="n">hole</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+             <span class="p">)</span>
+
+<span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+                  <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">,</span>
+                  <span class="n">pull</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+                  <span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="PieChart5" src="../../assets/chap1-4/03_pieChart5.jpg" width="800" /> </center></p>
+<p>The length of <code>pull</code> matches the length of <code>animals</code>.</p>
+<p>Similarly, each value corresponds to a
+specific animal, in matching result. For example, the last element of <code>pull</code> is 0.1, meaning
+that the last element of <code>animals</code>, 'Pig', will be pulled out by a factor of 0.1.</p>
+<p>Let's try applying this knowledge to pull out 'Chicken' and 'Buffalo' as well!</p>
+<div class="highlight"><pre><span></span><code><span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+<span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span>
+             <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The Animals of Old McDonald&#39;s Farm&quot;</span><span class="p">,</span>
+             <span class="n">hole</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+             <span class="p">)</span>
+
+<span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+                  <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">,</span>
+                  <span class="n">opacity</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                  <span class="n">pull</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+                  <span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pie</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
+</code></pre></div>
+<p><center> <img alt="PieChart6" src="../../assets/chap1-4/03_pieChart6.jpg" width="800" /> </center></p>
+<p>Neat! And with that, we have a rather fancy pie chart put together in less than a dozen lines of code!</p>
+<blockquote>
+<p>NOTE: For more information, make sure to check out the following:
+<a href="https://plotly.com/python/pie-charts/">Plotly Pie Charts</a>,
+<a href="https://plotly.com/python-api-reference/generated/plotly.express.pie">px.Pie()</a></p>
+</blockquote>
+</details>
+<p>The shopowner looks at our laptop and points at our line charts from before,</p>
+<p><em>"Ahh! I see you've visited Lenny's Lines. Make sure to check out Sylvie's Scatter Plots. It's right next door!</em>
+<em>That'll come in handy with data points that don't necessarily need to form a line!"</em></p>
+<p>&nbsp; &nbsp;</p>
+<p>Walking over, we're greeted by a beaming clerk with the initials "S.S.".</p>
+<p><em>"Howdy y'all! I presume you're here to learn about the stunning power of scatter plots..."</em></p>
+<details class="info" open="open"><summary>Plotly Pointers 05</summary><h2 id="scatter-plots">Scatter Plots<a class="headerlink" href="#scatter-plots" title="Permanent link">&para;</a></h2>
+<p>As with most other plots, there are a few options to create a scatter plot!</p>
+<h3 id="loading-data_3">Loading Data<a class="headerlink" href="#loading-data_3" title="Permanent link">&para;</a></h3>
+<p>Here, we'll explore a less-common method with several Star Wars Lego Sets. Each
+Lego Set is stored as an array of three values: price, piece count, and VIP points.
+These arrays are added to a list of all eight sets.</p>
+<p>Using two iterators, we can create a list of prices and pieces (ordered correctly).</p>
+<div class="highlight"><pre><span></span><code><span class="n">rep_gunship</span> <span class="o">=</span> <span class="p">[</span><span class="mf">349.99</span><span class="p">,</span> <span class="mi">3292</span><span class="p">,</span> <span class="mi">2275</span><span class="p">];</span> <span class="n">light_cruiser</span> <span class="o">=</span> <span class="p">[</span><span class="mf">159.99</span><span class="p">,</span> <span class="mi">1336</span><span class="p">,</span> <span class="mi">1040</span><span class="p">]</span>
+<span class="n">bad_batch_shuttle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">99.99</span><span class="p">,</span> <span class="mi">969</span><span class="p">,</span> <span class="mi">650</span><span class="p">];</span> <span class="n">meditation_chamber</span> <span class="o">=</span> <span class="p">[</span><span class="mf">69.99</span><span class="p">,</span> <span class="mi">663</span><span class="p">,</span> <span class="mi">455</span><span class="p">]</span>
+<span class="n">imperial_maurader</span> <span class="o">=</span> <span class="p">[</span><span class="mf">39.99</span><span class="p">,</span> <span class="mi">478</span><span class="p">,</span> <span class="mi">260</span><span class="p">];</span> <span class="n">mandalorian_forge</span> <span class="o">=</span> <span class="p">[</span><span class="mf">29.99</span><span class="p">,</span> <span class="mi">258</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="n">a_wing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">199.99</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="mi">1300</span><span class="p">];</span> <span class="n">razor_crest</span> <span class="o">=</span> <span class="p">[</span><span class="mf">129.99</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">845</span><span class="p">]</span>
+
+<span class="n">sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">rep_gunship</span><span class="p">,</span> <span class="n">light_cruiser</span><span class="p">,</span> <span class="n">bad_batch_shuttle</span><span class="p">,</span> <span class="n">meditation_chamber</span><span class="p">,</span> <span class="n">imperial_maurader</span><span class="p">,</span> <span class="n">mandalorian_forge</span><span class="p">,</span> <span class="n">a_wing</span><span class="p">,</span> <span class="n">razor_crest</span><span class="p">]</span>
+
+<span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">price</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pieces</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="ScatterPlot1" src="../../assets/chap1-4/03_scatterPlot1.jpg" width="800" /> </center></p>
+<p>Looking good, but let's add some style!</p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="styling-figure_3">Styling Figure<a class="headerlink" href="#styling-figure_3" title="Permanent link">&para;</a></h3>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Size Attribute</strong></p>
+<p>One neat way to flavor our scatter plots is to modify the <code>size</code> attribute. Here,
+we can set the size of each datapoint to match a third attribute. In this case, the
+third dimension of data will be the number of VIP points earned per set.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Lego Sets from 2021 (Price, Pieces, VIP Points)</span>
+
+<span class="n">rep_gunship</span> <span class="o">=</span> <span class="p">[</span><span class="mf">349.99</span><span class="p">,</span> <span class="mi">3292</span><span class="p">,</span> <span class="mi">2275</span><span class="p">];</span> <span class="n">light_cruiser</span> <span class="o">=</span> <span class="p">[</span><span class="mf">159.99</span><span class="p">,</span> <span class="mi">1336</span><span class="p">,</span> <span class="mi">1040</span><span class="p">]</span>
+<span class="n">bad_batch_shuttle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">99.99</span><span class="p">,</span> <span class="mi">969</span><span class="p">,</span> <span class="mi">650</span><span class="p">];</span> <span class="n">meditation_chamber</span> <span class="o">=</span> <span class="p">[</span><span class="mf">69.99</span><span class="p">,</span> <span class="mi">663</span><span class="p">,</span> <span class="mi">455</span><span class="p">]</span>
+<span class="n">imperial_maurader</span> <span class="o">=</span> <span class="p">[</span><span class="mf">39.99</span><span class="p">,</span> <span class="mi">478</span><span class="p">,</span> <span class="mi">260</span><span class="p">];</span> <span class="n">mandalorian_forge</span> <span class="o">=</span> <span class="p">[</span><span class="mf">29.99</span><span class="p">,</span> <span class="mi">258</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="n">a_wing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">199.99</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="mi">1300</span><span class="p">];</span> <span class="n">razor_crest</span> <span class="o">=</span> <span class="p">[</span><span class="mf">129.99</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">845</span><span class="p">]</span>
+
+<span class="n">sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">rep_gunship</span><span class="p">,</span> <span class="n">light_cruiser</span><span class="p">,</span> <span class="n">bad_batch_shuttle</span><span class="p">,</span> <span class="n">meditation_chamber</span><span class="p">,</span> <span class="n">imperial_maurader</span><span class="p">,</span> <span class="n">mandalorian_forge</span><span class="p">,</span> <span class="n">a_wing</span><span class="p">,</span> <span class="n">razor_crest</span><span class="p">]</span>
+
+<span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">price</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pieces</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">points</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="ScatterPlot2" src="../../assets/chap1-4/03_scatterPlot2.jpg" width="800" /> </center></p>
+<p>And ta-da, we can easily visualize that larger sets give the most points!</p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Adding Color</strong></p>
+<p>As well as representing VIP points by size, we can also represent this data with color. We simply
+need to add the <code>color</code> argument inside of our <code>px.scatter()</code> function.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Lego Sets from 2021 (Price, Pieces, VIP Points)</span>
+
+<span class="n">rep_gunship</span> <span class="o">=</span> <span class="p">[</span><span class="mf">349.99</span><span class="p">,</span> <span class="mi">3292</span><span class="p">,</span> <span class="mi">2275</span><span class="p">];</span> <span class="n">light_cruiser</span> <span class="o">=</span> <span class="p">[</span><span class="mf">159.99</span><span class="p">,</span> <span class="mi">1336</span><span class="p">,</span> <span class="mi">1040</span><span class="p">]</span>
+<span class="n">bad_batch_shuttle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">99.99</span><span class="p">,</span> <span class="mi">969</span><span class="p">,</span> <span class="mi">650</span><span class="p">];</span> <span class="n">meditation_chamber</span> <span class="o">=</span> <span class="p">[</span><span class="mf">69.99</span><span class="p">,</span> <span class="mi">663</span><span class="p">,</span> <span class="mi">455</span><span class="p">]</span>
+<span class="n">imperial_maurader</span> <span class="o">=</span> <span class="p">[</span><span class="mf">39.99</span><span class="p">,</span> <span class="mi">478</span><span class="p">,</span> <span class="mi">260</span><span class="p">];</span> <span class="n">mandalorian_forge</span> <span class="o">=</span> <span class="p">[</span><span class="mf">29.99</span><span class="p">,</span> <span class="mi">258</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="n">a_wing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">199.99</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="mi">1300</span><span class="p">];</span> <span class="n">razor_crest</span> <span class="o">=</span> <span class="p">[</span><span class="mf">129.99</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">845</span><span class="p">]</span>
+
+<span class="n">sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">rep_gunship</span><span class="p">,</span> <span class="n">light_cruiser</span><span class="p">,</span> <span class="n">bad_batch_shuttle</span><span class="p">,</span> <span class="n">meditation_chamber</span><span class="p">,</span> <span class="n">imperial_maurader</span><span class="p">,</span> <span class="n">mandalorian_forge</span><span class="p">,</span> <span class="n">a_wing</span><span class="p">,</span> <span class="n">razor_crest</span><span class="p">]</span>
+
+<span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">price</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pieces</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">points</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">update_coloraxes</span><span class="p">(</span><span class="n">colorbar_title</span><span class="o">=</span><span class="s2">&quot;VIP Points&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># For better view!</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="ScatterPlot3" src="../../assets/chap1-4/03_scatterPlot3.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p><strong>Adding Trendline</strong></p>
+<p>Finally, one useful feature of <code>px.Scatter()</code> is the ability to add trendlines! All it takes
+is a simple <code>trendline="ols"</code>, where "ols" stands for Ordinary Least Squares regression.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Lego Sets from 2021 (Price, Pieces, VIP Points)</span>
+
+<span class="n">rep_gunship</span> <span class="o">=</span> <span class="p">[</span><span class="mf">349.99</span><span class="p">,</span> <span class="mi">3292</span><span class="p">,</span> <span class="mi">2275</span><span class="p">];</span> <span class="n">light_cruiser</span> <span class="o">=</span> <span class="p">[</span><span class="mf">159.99</span><span class="p">,</span> <span class="mi">1336</span><span class="p">,</span> <span class="mi">1040</span><span class="p">]</span>
+<span class="n">bad_batch_shuttle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">99.99</span><span class="p">,</span> <span class="mi">969</span><span class="p">,</span> <span class="mi">650</span><span class="p">];</span> <span class="n">meditation_chamber</span> <span class="o">=</span> <span class="p">[</span><span class="mf">69.99</span><span class="p">,</span> <span class="mi">663</span><span class="p">,</span> <span class="mi">455</span><span class="p">]</span>
+<span class="n">imperial_maurader</span> <span class="o">=</span> <span class="p">[</span><span class="mf">39.99</span><span class="p">,</span> <span class="mi">478</span><span class="p">,</span> <span class="mi">260</span><span class="p">];</span> <span class="n">mandalorian_forge</span> <span class="o">=</span> <span class="p">[</span><span class="mf">29.99</span><span class="p">,</span> <span class="mi">258</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="n">a_wing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">199.99</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="mi">1300</span><span class="p">];</span> <span class="n">razor_crest</span> <span class="o">=</span> <span class="p">[</span><span class="mf">129.99</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">845</span><span class="p">]</span>
+
+<span class="n">sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">rep_gunship</span><span class="p">,</span> <span class="n">light_cruiser</span><span class="p">,</span> <span class="n">bad_batch_shuttle</span><span class="p">,</span> <span class="n">meditation_chamber</span><span class="p">,</span> <span class="n">imperial_maurader</span><span class="p">,</span> <span class="n">mandalorian_forge</span><span class="p">,</span> <span class="n">a_wing</span><span class="p">,</span> <span class="n">razor_crest</span><span class="p">]</span>
+
+<span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">price</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pieces</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">trendline</span><span class="o">=</span><span class="s2">&quot;ols&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">update_coloraxes</span><span class="p">(</span><span class="n">colorbar_title</span><span class="o">=</span><span class="s2">&quot;VIP Points&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span> <span class="c1"># For better view!</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="ScatterPlot4" src="../../assets/chap1-4/03_scatterPlot4.jpg" width="800" /> </center></p>
+<blockquote>
+<p>NOTE: Non-linear regression lines can be added as well! For more information, check out:
+<a href="https://plotly.com/python/linear-fits/">Plotly Trendlines</a></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p><strong>All Put Together</strong></p>
+<p>Using these elements and our stylings from the previous section, we can create the following:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Lego Sets from 2021 (Price, Pieces, VIP Points)</span>
+
+<span class="n">rep_gunship</span> <span class="o">=</span> <span class="p">[</span><span class="mf">349.99</span><span class="p">,</span> <span class="mi">3292</span><span class="p">,</span> <span class="mi">2275</span><span class="p">];</span> <span class="n">light_cruiser</span> <span class="o">=</span> <span class="p">[</span><span class="mf">159.99</span><span class="p">,</span> <span class="mi">1336</span><span class="p">,</span> <span class="mi">1040</span><span class="p">]</span>
+<span class="n">bad_batch_shuttle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">99.99</span><span class="p">,</span> <span class="mi">969</span><span class="p">,</span> <span class="mi">650</span><span class="p">];</span> <span class="n">meditation_chamber</span> <span class="o">=</span> <span class="p">[</span><span class="mf">69.99</span><span class="p">,</span> <span class="mi">663</span><span class="p">,</span> <span class="mi">455</span><span class="p">]</span>
+<span class="n">imperial_maurader</span> <span class="o">=</span> <span class="p">[</span><span class="mf">39.99</span><span class="p">,</span> <span class="mi">478</span><span class="p">,</span> <span class="mi">260</span><span class="p">];</span> <span class="n">mandalorian_forge</span> <span class="o">=</span> <span class="p">[</span><span class="mf">29.99</span><span class="p">,</span> <span class="mi">258</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+<span class="n">a_wing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">199.99</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="mi">1300</span><span class="p">];</span> <span class="n">razor_crest</span> <span class="o">=</span> <span class="p">[</span><span class="mf">129.99</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">845</span><span class="p">]</span>
+
+<span class="n">sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">rep_gunship</span><span class="p">,</span> <span class="n">light_cruiser</span><span class="p">,</span> <span class="n">bad_batch_shuttle</span><span class="p">,</span> <span class="n">meditation_chamber</span><span class="p">,</span> <span class="n">imperial_maurader</span><span class="p">,</span> <span class="n">mandalorian_forge</span><span class="p">,</span> <span class="n">a_wing</span><span class="p">,</span> <span class="n">razor_crest</span><span class="p">]</span>
+
+<span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+<span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">price</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pieces</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">trendline</span><span class="o">=</span><span class="s2">&quot;ols&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="o">.</span><span class="n">update_coloraxes</span><span class="p">(</span><span class="n">colorbar_title</span><span class="o">=</span><span class="s2">&quot;VIP Points&quot;</span><span class="p">)</span>
+
+<span class="n">scatter</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+   <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Lego Star Wars Sets (2021)&quot;</span><span class="p">,</span>
+   <span class="n">xaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Price (USD)&quot;</span><span class="p">,</span>
+   <span class="n">yaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Total Piece Count&quot;</span><span class="p">,</span>
+   <span class="n">width</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">)</span>
+
+<span class="n">scatter</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><center> <img alt="ScatterPlot5" src="../../assets/chap1-4/03_scatterPlot5.jpg" width="800" /> </center></p>
+<blockquote>
+<p>NOTE: For more information, make sure to check out the following:
+<a href="https://plotly.com/python/line-and-scatter/">Plotly Scatter</a>
+<a href="https://plotly.com/python-api-reference/generated/plotly.express.scatter">px.Scatter()</a></p>
+</blockquote>
+</details>
+<p>Sylvie turns to us and points at our laptop,</p>
+<p>"Y'all have these fancy figures, but they're <strong>not part of your dashboard</strong> yet! Learning
+how to add them in is an <em>ancient knowledge</em> you won't be able to find 'round here. Travel
+past this Port towards Dash's Delta. There, y'all will find the next pieces of your quest."</p>
+<p>We smile and wave goodbye, heading out past Port Plotly and down along the coast.</p>
+<p>&nbsp; &nbsp;</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>All code segments from this chapter can be found in this
+<a href="https://colab.research.google.com/drive/1RRirZeUi_zSBEDS9lDJw1dsxth_V0f-9#scrollTo=RIac6-HeDS1V">Colab Notebook</a>.
+Feel free to follow along!&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Everything we've installed so far (prerequistes for next section):
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">pyTigerGraph</span>
+<span class="kn">import</span> <span class="nn">pyTigerGraph</span> <span class="k">as</span> <span class="nn">tg</span>
+
+<span class="n">TG_SUBDOMAIN</span> <span class="o">=</span> <span class="s1">&#39;healthcare-dash&#39;</span>
+<span class="n">TG_HOST</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">TG_SUBDOMAIN</span> <span class="o">+</span> <span class="s2">&quot;.i.tgcloud.io&quot;</span> <span class="c1"># GraphStudio Link</span>
+
+<span class="n">TG_USERNAME</span> <span class="o">=</span> <span class="s2">&quot;tigergraph&quot;</span> <span class="c1"># This should remain the same...</span>
+<span class="n">TG_PASSWORD</span> <span class="o">=</span> <span class="s2">&quot;tigergraph&quot;</span> <span class="c1"># Shh, it&#39;s our password!</span>
+<span class="n">TG_GRAPHNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGraph&quot;</span> <span class="c1"># The name of the graph</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">TigerGraphConnection</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">TG_HOST</span><span class="p">,</span> <span class="n">graphname</span><span class="o">=</span><span class="n">TG_GRAPHNAME</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">TG_USERNAME</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">TG_PASSWORD</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">apiToken</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getToken</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">createSecret</span><span class="p">())</span>
+
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">dash</span>
+
+<span class="kn">import</span> <span class="nn">dash</span>
+<span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
+<span class="kn">from</span> <span class="nn">jupyter_dash</span> <span class="kn">import</span> <span class="n">JupyterDash</span>
+
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+</code></pre></div>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+                  
+                
+              
+  <footer class="tx-content__footer md-typeset">
+    <a href="https://tigergraph.com" title="TigerGraph Website">
+      <hr>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 3h2v2H5v5a2 2 0 01-2 2 2 2 0 012 2v5h2v2H5c-1.07-.27-2-.9-2-2v-4a2 2 0 00-2-2H0v-2h1a2 2 0 002-2V5a2 2 0 012-2m14 0a2 2 0 012 2v4a2 2 0 002 2h1v2h-1a2 2 0 00-2 2v4a2 2 0 01-2 2h-2v-2h2v-5a2 2 0 012-2 2 2 0 01-2-2V5h-2V3h2m-7 12a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m-4 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m8 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1z"/></svg>
+      </span>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </span>
+      <span class="twemoji tx-heart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 20.408c-.492.308-.903.546-1.192.709-.153.086-.308.17-.463.252h-.002a.75.75 0 01-.686 0 16.709 16.709 0 01-.465-.252 31.147 31.147 0 01-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31.146 31.146 0 0114 20.408z"/></svg>
+      </span>
+      <hr>
+    </a>
+  </footer>
+
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../02_setup-sea/" title="Ch 02 - Sailing through Setup Sea" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Ch 02 - Sailing through Setup Sea
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../04_dash-delta/" title="Ch 04 - Dash's Delta" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Ch 04 - Dash's Delta
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 TigerGraph
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/tigergraph/ecosys" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://discord.gg/F2c9b9v" target="_blank" rel="noopener" title="discord.gg" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.youtube.com/c/TigerGraph/videos" target="_blank" rel="noopener" title="www.youtube.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/TigerGraphDB" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.linkedin.com/company/tigergraph/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.twitch.tv/tigergraph" target="_blank" rel="noopener" title="www.twitch.tv" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M391.17,103.47H352.54v109.7h38.63ZM285,103H246.37V212.75H285ZM120.83,0,24.31,91.42V420.58H140.14V512l96.53-91.42h77.25L487.69,256V0ZM449.07,237.75l-77.22,73.12H294.61l-67.6,64v-64H140.14V36.58H449.07Z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.c3dc8c49.min.js"></script>
+      <script src="../../assets/javascripts/bundle.30071cf1.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ["tabs", "navigation.top", "navigation.sections", "navigation.tracking", "navigation.tabs.sticky"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.8e2cddea.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

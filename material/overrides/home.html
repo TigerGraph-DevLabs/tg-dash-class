@@ -1,0 +1,30 @@
+{#-
+  This file was automatically generated - do not edit
+-#}
+{% extends "overrides/main.html" %}
+{% block tabs %}
+  {{ super() }}
+  <style>.md-header{position:initial}.md-main__inner{margin:0}.md-content{display:none}@media screen and (min-width:60em){.md-sidebar--secondary{display:none}}@media screen and (min-width:76.25em){.md-sidebar--primary{display:none}}</style>
+  <section class="tx-container">
+    <div class="md-grid md-typeset">
+      <div class="tx-hero">
+        <div class="tx-hero__image">
+          <img src="assets/images/illustration2.png" alt="" width="600" height="600" alighn="left" draggable="false">
+          <a href="https://storyset.com/work">Work illustrations by Storyset</a>
+        </div>
+        <div class="tx-hero__content">
+          <h1>TigerGraph + Plotly Dash</h1>
+          <p>{{ config.site_description }}</p>
+          <a href="{{ page.next_page.url | url }}" title="{{ page.next_page.title | striptags }}" class="md-button md-button--primary">
+            Learn More
+          </a>
+          <a href="{{ page.next_page.next_page.next_page.next_page.url | url }}" title="{{ lang.t('source.link.title') }}" class="md-button">
+            Jump In
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}{% endblock %}
