@@ -1,0 +1,1827 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+      
+      
+        <link rel="canonical" href="https://advit-tg.github.io/dash-class/learn/04_dash-delta/">
+      
+      
+        <meta name="author" content="Advit Deepak">
+      
+      <link rel="shortcut icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-5.5.3">
+    
+    
+      
+        <title>Ch 04 - Dash's Delta - TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e584d62f.min.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cef4c379.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#ff7043">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    
+  
+      
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.body.addEventListener("click", ev => {
+        if (ev.target instanceof HTMLElement) {
+          var el = ev.target.closest("a[href^=http]")
+          if (el)
+            ga("send", "event", "outbound", "click", el.href)
+        }
+      })
+    })
+  </script>
+
+    
+  
+  
+    
+  
+  
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Ch 04 - Dash's Delta">
+  <meta property="og:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta property="og:url" content="https://advit-tg.github.io/dash-class/learn/04_dash-delta/">
+  <meta property="og:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@squidfunk">
+  <meta name="twitter:creator" content="@squidfunk">
+  <meta name="twitter:title" content="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards - Ch 04 - Dash's Delta">
+  <meta name="twitter:description" content="This all-in-one guide teaches users how to visualize their data using 🐯 TigerGraph 🐯 and Plotly Dash. Each major componenet in the dashboarding process is meticulously fleshed out, resulting in an interactive, step-by-step journey to deploy one's own dashboard.">
+  <meta name="twitter:image" content="https://advit-tg.github.io/dash-class/assets/images/banner.png">
+  <link rel="stylesheet" href="../../assets/stylesheets/overrides.011ebae6.min.css">
+
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dashs-delta" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-announce">
+          <div class="md-announce__inner md-grid md-typeset">
+            
+  <a href="https://discord.gg/F2c9b9v">
+    Join TigerGraph's <strong>developer chat</strong> on
+    <span class="twemoji">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+    </span>
+  </a>
+
+          </div>
+        </aside>
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-header-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Ch 04 - Dash's Delta
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/TigerGraph-DevLabs/tg-dash-class/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tg-dash-class
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    
+  </li>
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../intro/A_01_devoid-of-dash/" class="md-tabs__link">
+          Why Dashboard?
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../quick/01_notes/" class="md-tabs__link">
+          Quick Start
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../01_installation-island/" class="md-tabs__link md-tabs__link--active">
+          Adventure
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../examples/" class="md-tabs__link">
+          Examples
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../resources/" class="md-tabs__link">
+          Resources
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../community/" class="md-tabs__link">
+          Community
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://advit-tg.github.io/dash-class/" title="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards" class="md-nav__button md-logo" aria-label="TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 630 615" width="630" height="615"><defs><path d="M595.55 233.29C594.5 234.24 593.85 235.55 593.72 236.96C597.21 288.54 568.93 370.08 450.45 447.12C449.48 448.07 447.92 448.07 446.95 447.12C445.98 446.09 445.98 444.49 446.95 443.46C498.21 386.55 613.36 229.8 485.89 129.96C485.89 129.96 482.4 126.46 480.57 128.3C479.52 129.17 478.86 130.43 478.74 131.79C508.86 212 469.92 281.55 450.45 310.01C449.49 310.91 448.26 311.49 446.95 311.67C445.12 311.67 445.12 308.18 445.12 308.18C471.75 191.69 425.82 121.14 353.27 62.4C354.47 58.24 360.46 37.44 371.24 0C339.39 1.1 321.7 1.71 318.16 1.83C289.41 4.36 261.62 13.47 236.96 28.45C217.85 28.07 198.79 30.48 180.38 35.61C150.04 47.49 122.58 65.7 99.84 89.02C93.18 96.51 59.9 133.95 0 201.35C29.95 241.88 46.59 264.4 49.92 268.9C48.19 310.41 73.08 348.42 111.82 363.42C132.54 320.26 175.47 292.14 223.31 290.37C256.35 291.25 287.27 306.8 307.68 332.8C334.13 275.73 300.52 209.83 289.87 184.87C289.07 183.85 289.07 182.4 289.87 181.38C289.87 181.38 289.87 181.38 289.87 181.38C291.7 179.55 293.53 183.21 293.53 183.21C417.17 325.65 279.39 541.14 224.48 605.2C222.55 607.2 222.55 610.36 224.48 612.36C224.48 612.36 224.48 612.36 224.48 612.36C226.31 617.68 231.63 614.19 231.63 614.19C266.91 601.71 339.46 576.75 417.17 542.97C556.95 488.05 691.23 399.36 599.04 235.13C599.04 235.13 597.21 231.63 595.55 233.29ZM137.61 168.56C135.78 170.39 133.95 168.56 135.78 166.73C137.61 164.9 152.42 127.63 152.42 127.63C157.75 115.15 161.24 104.5 178.88 102.67C182.39 102.39 210.48 100.12 213.99 99.84C213.99 99.84 141.44 167.4 137.95 169.23C137.88 169.1 137.68 168.7 137.61 168.56Z" id="a3CsshSr8W"></path></defs><g><g><g><use xlink:href="#a3CsshSr8W" opacity="1" fill="#ffffff" fill-opacity="1"></use><g><use xlink:href="#a3CsshSr8W" opacity="1" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g></g></g></svg>
+
+    </a>
+    TigerGraph's Dash Class — One-Stop-Shop for Creating Dashboards
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/TigerGraph-DevLabs/tg-dash-class/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tg-dash-class
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Why Dashboard?
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Why Dashboard?" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Why Dashboard?
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_01_devoid-of-dash/" title="Devoid of Dash" class="md-nav__link">
+      Devoid of Dash
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../intro/A_02_getting-started/" title="Trusty Toolbox" class="md-nav__link">
+      Trusty Toolbox
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Quick Start
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Quick Start
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/01_notes/" title="Installation, First Dash App" class="md-nav__link">
+      Installation, First Dash App
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/02_notes/" title="Plotly, Dash, Styling Elements" class="md-nav__link">
+      Plotly, Dash, Styling Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/03_notes/" title="TigerGraph (pyTG, queries) 🐯" class="md-nav__link">
+      TigerGraph (pyTG, queries) 🐯
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/04_notes/" title="Multi-Page Layout, Callbacks" class="md-nav__link">
+      Multi-Page Layout, Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/05_notes/" title="Navigation - Navbars, Sidebars" class="md-nav__link">
+      Navigation - Navbars, Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../quick/06_notes/" title="Misc. Elements, Deployment" class="md-nav__link">
+      Misc. Elements, Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Adventure
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Adventure" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Adventure
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../01_installation-island/" title="Ch 01 - Installation Island" class="md-nav__link">
+      Ch 01 - Installation Island
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../02_setup-sea/" title="Ch 02 - Sailing through Setup Sea" class="md-nav__link">
+      Ch 02 - Sailing through Setup Sea
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../03_port-plotly/" title="Ch 03 - Presenting Port Plotly" class="md-nav__link">
+      Ch 03 - Presenting Port Plotly
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Ch 04 - Dash's Delta
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Ch 04 - Dash's Delta" class="md-nav__link md-nav__link--active">
+      Ch 04 - Dash's Delta
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dashs-libraries" class="md-nav__link">
+    Dash's Libraries
+  </a>
+  
+    <nav class="md-nav" aria-label="Dash's Libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dash-core" class="md-nav__link">
+    Dash Core
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap" class="md-nav__link">
+    Bootstrap
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-graph" class="md-nav__link">
+    Dash Graph
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-cards" class="md-nav__link">
+    Dash Cards
+  </a>
+  
+    <nav class="md-nav" aria-label="Dash Cards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-elements" class="md-nav__link">
+    Basic Elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#colors-outlines" class="md-nav__link">
+    Colors, Outlines
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-layout" class="md-nav__link">
+    Dash Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Dash Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-cards" class="md-nav__link">
+    Creating Cards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbcrow" class="md-nav__link">
+    dbc.Row()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbccol" class="md-nav__link">
+    dbc.Col()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../05_sheriff-styles/" title="Ch 05 - Sheriff Styles" class="md-nav__link">
+      Ch 05 - Sheriff Styles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../06_tigergraph-tundra/" title="Ch 06 - The TigerGraph Tundra" class="md-nav__link">
+      Ch 06 - The TigerGraph Tundra
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../07_multi-monster/" title="Ch 07 - The Multi-Page Monsters" class="md-nav__link">
+      Ch 07 - The Multi-Page Monsters
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../08_callback-cliff/" title="Ch 08 - Confronted by Callbacks" class="md-nav__link">
+      Ch 08 - Confronted by Callbacks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../09_northern-navbars/" title="Ch 09 - Northern Navbars" class="md-nav__link">
+      Ch 09 - Northern Navbars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../10_southern-sidebars/" title="Ch 10 - Southern Sidebars" class="md-nav__link">
+      Ch 10 - Southern Sidebars
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../11_elysium-elements/" title="Ch 11 - Elysium of Elements" class="md-nav__link">
+      Ch 11 - Elysium of Elements
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../12_destination-deployment/" title="Ch 12 - Destination Deployment" class="md-nav__link">
+      Ch 12 - Destination Deployment
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Examples
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Examples" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Examples
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../examples/" title="Exquisite Examples" class="md-nav__link">
+      Exquisite Examples
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Resources
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Resources" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Resources
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../resources/" title="Resources" class="md-nav__link">
+      Resources
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Community
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Community" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Community
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../community/" title="Get Connected" class="md-nav__link">
+      Get Connected
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dashs-libraries" class="md-nav__link">
+    Dash's Libraries
+  </a>
+  
+    <nav class="md-nav" aria-label="Dash's Libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dash-core" class="md-nav__link">
+    Dash Core
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap" class="md-nav__link">
+    Bootstrap
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-graph" class="md-nav__link">
+    Dash Graph
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-cards" class="md-nav__link">
+    Dash Cards
+  </a>
+  
+    <nav class="md-nav" aria-label="Dash Cards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-elements" class="md-nav__link">
+    Basic Elements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#colors-outlines" class="md-nav__link">
+    Colors, Outlines
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dash-layout" class="md-nav__link">
+    Dash Layout
+  </a>
+  
+    <nav class="md-nav" aria-label="Dash Layout">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-cards" class="md-nav__link">
+    Creating Cards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbcrow" class="md-nav__link">
+    dbc.Row()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbccol" class="md-nav__link">
+    dbc.Col()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+  
+                
+                  <a href="https://github.com/TigerGraph-DevLabs/tg-dash-class/edit/master/docs/learn/04_dash-delta.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  
+                
+                
+                <h1 id="dashs-delta">Dash’s Delta 🌿<a class="headerlink" href="#dashs-delta" title="Permanent link">&para;</a></h1>
+<p><center> <img alt="Page4" src="../../assets/banners/section4.svg" width="800" /> </center></p>
+<p>As we follow the meandering coastline, we catch sight of the mouth of the rivers heading inland.</p>
+<p>A small wooden sign sits next to the wetlands: <font color='#DD6E0F'> <em>“Welcome to Dash’s Delta. EST 2013.’</em> </font></p>
+<p>Next to it, several large, strangely-shaped rocks have been arranged in a circular fashion. Taking a closer look, there are several paragraphs etched into each stone. Curious, we begin to read…</p>
+<p>&nbsp; &nbsp;</p>
+<p><center> <strong><em>The power of Dash flows through these rivers.</em></strong> </center></p>
+<p><center> <strong><em>Engraved into these stones lie the key to unlocking their secrets...</em></strong> </center></p>
+<details class="info" open="open"><summary>Dash's Delta Notes 01</summary><h2 id="dashs-libraries">Dash's Libraries<a class="headerlink" href="#dashs-libraries" title="Permanent link">&para;</a></h2>
+<p>To begin harnessing the power of Dash, we must import the necessary libraries</p>
+<h3 id="dash-core">Dash Core<a class="headerlink" href="#dash-core" title="Permanent link">&para;</a></h3>
+<p>Dash's core components are a library of higher-level elements such as <strong>tables, graphs,</strong>
+<strong>dropdowns, inputs, and links</strong>. To use these components, we add the following line:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dash_core_components</span> <span class="k">as</span> <span class="nn">dcc</span>
+</code></pre></div>
+<blockquote>
+<p>NOTE: For a full list of components, feel free to check out the following:
+<a href="https://dash.plotly.com/dash-core-components">Dash Core Documentation</a></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<h3 id="bootstrap">Bootstrap<a class="headerlink" href="#bootstrap" title="Permanent link">&para;</a></h3>
+<p>Dash allows for the inclusion of native Boostrap components via its Dash Boostrap
+library. These elements include <strong>cards, lists, badges, and more</strong>. To use these elements, we install and import the library via the following lines:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">dash</span><span class="o">-</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">components</span>
+<span class="kn">import</span> <span class="nn">dash_bootstrap_components</span> <span class="k">as</span> <span class="nn">dbc</span>
+</code></pre></div>
+<blockquote>
+<p>NOTE: For a full list of components, feel free to check out the following:
+<a href="https://dash-bootstrap-components.opensource.faculty.ai/">Dash Boostrap Documentation</a></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p>And voila, we're good to go!</p>
+</details>
+<p>We turn to the next stone and continue to read...</p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>Dash's Delta Notes 02</summary><h2 id="dash-graph">Dash Graph<a class="headerlink" href="#dash-graph" title="Permanent link">&para;</a></h2>
+<p>The figures made from Plotly are dazzling, but <em>still need to be added into the dashboard!</em></p>
+<p>In order to add these charts, we can utilize the <code>dcc.Graph()</code> element. First, we create a function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getAnimalChart</span><span class="p">():</span>
+  <span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;Animals&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;Counts&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+  <span class="p">}</span>
+
+  <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+  <span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Animals&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+  <span class="n">bar</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Animals vs. Appendages&quot;</span><span class="p">,</span> <span class="c1"># Adding a title</span>
+      <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;The Amazing Animals&quot;</span><span class="p">,</span> <span class="c1"># Changing x-axis label</span>
+      <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;How many appendages?&quot;</span><span class="p">,</span> <span class="c1"># Changing y-axis label</span>
+      <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+          <span class="n">family</span><span class="o">=</span><span class="s2">&quot;Courier New, monospace&quot;</span><span class="p">,</span> <span class="c1"># The font style</span>
+          <span class="n">color</span><span class="o">=</span><span class="s2">&quot;RebeccaPurple&quot;</span><span class="p">,</span> <span class="c1"># The font color</span>
+          <span class="n">size</span><span class="o">=</span><span class="mi">18</span> <span class="c1"># The font size</span>
+      <span class="p">)</span>
+  <span class="p">)</span>
+  <span class="k">return</span> <span class="n">bar</span>
+</code></pre></div>
+<p>This function simply <font color='#DD6E0F'>returns our finalized bar chart</font> from the last chapter instead of displaying it.</p>
+<p>Now, we can add a <code>dcc.Graph()</code> component in our app via the following lines. And here's the result!</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="s2">&quot;Welcome to Dash&quot;</span><span class="p">),</span>
+    <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Animal Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getAnimalChart</span><span class="p">())</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="BarChart1" src="../../assets/chap1-4/04_barChart1.jpg" width="800" /> </center></p>
+<blockquote>
+<p>NOTE: The <code>id</code> attribute is <font color='#DD6E0F'>optional, but it's a good practice to include a unique ID</font> for each component.
+This is especially true for updating figures, which will be covered in a later chapter, <em>"Confronted by Callbacks"</em></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p>Pretty straightforward! Now, we can add our Plotly figures to our dashboard 😄 .</p>
+</details>
+<p>Continuing down the circle, we find the next stone, "Dash Cards"...</p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>Dash's Delta Notes 03</summary><h2 id="dash-cards">Dash Cards<a class="headerlink" href="#dash-cards" title="Permanent link">&para;</a></h2>
+<p>These graphs we have created are amazing! But not the prettiest...</p>
+<p>With cards, <font color='#DD6E0F'>any component (especially text, images, and figures) can neatly be displayed within a bounded area.</font>
+These cards can be customized in <strong>terms of style, size, color, outline, and more!</strong></p>
+<h3 id="basic-elements">Basic Elements<a class="headerlink" href="#basic-elements" title="Permanent link">&para;</a></h3>
+<p>To get started, we'll create a simple card around our graph from earlier.</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="s2">&quot;Welcome to Dash&quot;</span><span class="p">),</span>
+    <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Animal Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                      <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Animal Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getAnimalChart</span><span class="p">())</span>
+                    <span class="p">])</span>
+      <span class="p">],</span>
+      <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+          <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+          <span class="p">}</span>
+    <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>Alright, let's break it down!</p>
+<p>At the very top, we must add the <strong>Bootstrap external stylesheet</strong> in order to utilize the Card component. This
+stylesheet <em>comes installed with the library</em> and is accessed with  <code>external_stylesheets=[dbc.themes.BOOTSTRAP]</code></p>
+<blockquote>
+<p>NOTE: We can add our own <font color='#DD6E0F'>custom external stylesheets!</font> We'll dive into this in <em>"Sheriff Styles"</em></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p>With our <code>dbc.Card()</code>, we have a Card Body. this <code>dbc.CardBody()</code> contains a header, paragraph, and our graph.
+You may notice the <code>className</code> attribute. This is a custom CSS styling that was imported from the Bootstrap stylesheet.</p>
+<p>After this, the <code>dbc.Card()</code> itself contains a style dictionary. In here, we find two attributes:</p>
+<ul>
+<li><strong>Width</strong> - this is simply the width of the card. <code>rem</code> <font color='#DD6E0F'>is simply the percentage dimension of the screen.</font> As a result, <code>55rem</code> means
+that the card will span 55% of the screen's width.</li>
+<li><strong>Margin</strong> - in particular, the left-most margin has been set to 1% of the screen's width. <code>margin-bottom</code>, <code>margin-top</code>, and <code>margin-right</code>
+are all valid keywords that can be utilized as well to further adjust our card.</li>
+</ul>
+<p>&nbsp; &nbsp;</p>
+<p>And voila, here's our result:</p>
+<p><center> <img alt="Card1" src="../../assets/chap1-4/04_card1.jpg" width="800" /> </center></p>
+<p>Let's try changing some of the colors!</p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="colors-outlines">Colors, Outlines<a class="headerlink" href="#colors-outlines" title="Permanent link">&para;</a></h3>
+<p>In order to modify the visual appearance of our cards, we can use the <code>color</code> and
+<code>outline</code> attributes. <code>color</code> allows for several pre-built options:
+<code>primary</code>, <code>secondary</code>, <code>info</code>, <code>success</code>, <code>warning</code>, <code>danger</code>, <code>light</code>, and <code>dark</code>.</p>
+<p>For example, here's what <code>info</code> looks like (a light blue):</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="s2">&quot;Welcome to Dash&quot;</span><span class="p">),</span>
+    <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Animal Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                      <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Animal Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getAnimalChart</span><span class="p">())</span>
+                    <span class="p">])</span>
+      <span class="p">],</span>
+      <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+      <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+      <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+          <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+          <span class="p">}</span>
+    <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Card2" src="../../assets/chap1-4/04_card2.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>We can also create a card to hold our title (looks kind of strange by itself in the top corner 😅)</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Welcome to Dash!&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                    <span class="p">])</span>
+      <span class="p">],</span>
+      <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark</span>
+      <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   
+      <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+          <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+          <span class="p">}</span>
+    <span class="p">),</span>
+
+    <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+        <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Animal Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                      <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                      <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Animal Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getAnimalChart</span><span class="p">())</span>
+                    <span class="p">])</span>
+      <span class="p">],</span>
+      <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+      <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+      <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+          <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+          <span class="p">}</span>
+    <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Card3" src="../../assets/chap1-4/04_card3.jpg" width="800" /> </center></p>
+<p>There we go, much better now!</p>
+<p>Ahh, you may have noticed the <code>inverse</code> argument! Setting this to <code>True</code> is
+helpful when dealing with dark backgrounds as it inverts all text color to white.
+As a result, we don't have to manually change the title color.</p>
+<blockquote>
+<p>NOTE: For more information on dbc.Card(), feel free to check out the following:
+<a href="https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/">dbc.Card()</a></p>
+</blockquote>
+<p>&nbsp; &nbsp;</p>
+<p>Now, what if we want to add multiple cards, but not just continue to vertically stack them?</p>
+<p>For that, we must turn to rows and columns!</p>
+</details>
+<p>The stone adjacent to this one is titled "Dash Layout"...</p>
+<p>&nbsp; &nbsp;</p>
+<details class="info" open="open"><summary>Dash's Delta Notes 04</summary><h2 id="dash-layout">Dash Layout<a class="headerlink" href="#dash-layout" title="Permanent link">&para;</a></h2>
+<p>The best way to arrange components in our dashboard is via <code>dbc.Row()</code> and <code>dbc.Col()</code>.</p>
+<p>Let's take a closer look at their power!</p>
+<h3 id="creating-cards">Creating Cards<a class="headerlink" href="#creating-cards" title="Permanent link">&para;</a></h3>
+<p>Before beginning, let's create a few cards for better readability:</p>
+<div class="tabbed-set" data-tabs="1:5"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">titleCard</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">titleCard</span> <span class="o">=</span>  <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                              <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Welcome to Dash!&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                            <span class="p">])</span>
+              <span class="p">],</span>
+              <span class="n">color</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark</span>
+              <span class="n">inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   
+              <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                  <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;margin-top&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                  <span class="p">}</span>
+            <span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">animalBarCard</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getAnimalBarChart</span><span class="p">():</span>
+    <span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Animals&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Counts&#39;</span>  <span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Animals&#39;</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Counts&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+
+    <span class="n">bar</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Animals vs. Appendages&quot;</span><span class="p">,</span> <span class="c1"># Adding a title</span>
+        <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;The Amazing Animals&quot;</span><span class="p">,</span> <span class="c1"># Changing x-axis label</span>
+        <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;How many appendages?&quot;</span><span class="p">,</span> <span class="c1"># Changing y-axis label</span>
+        <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">family</span><span class="o">=</span><span class="s2">&quot;Courier New, monospace&quot;</span><span class="p">,</span> <span class="c1"># The font style</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;RebeccaPurple&quot;</span><span class="p">,</span> <span class="c1"># The font color</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">18</span> <span class="c1"># The font size</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">bar</span>
+
+
+<span class="n">animalBarCard</span> <span class="o">=</span>  <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                  <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Animal Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Animal Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getAnimalBarChart</span><span class="p">())</span>
+                              <span class="p">])</span>
+                <span class="p">],</span>
+                <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                    <span class="p">}</span>
+              <span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">carbonLineCard</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getCarbonLineChart</span><span class="p">():</span>
+    <span class="n">year</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">1985</span><span class="p">,</span> <span class="mi">1990</span><span class="p">,</span> <span class="mi">1995</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2008</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="mi">2010</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2018</span><span class="p">]</span>
+    <span class="n">carbon_USA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">20.8</span><span class="p">,</span> <span class="mf">18.9</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">19.3</span><span class="p">,</span>   <span class="mf">20.2</span><span class="p">,</span>   <span class="mf">18.5</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">17.4</span><span class="p">,</span>   <span class="mf">17.0</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.5</span><span class="p">,</span>   <span class="mf">16.3</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">]</span>
+    <span class="n">carbon_AUS</span> <span class="o">=</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">15.3</span><span class="p">,</span>   <span class="mf">15.5</span><span class="p">,</span>   <span class="mf">15.6</span><span class="p">,</span>   <span class="mf">17.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">18.2</span><span class="p">,</span>   <span class="mf">17.7</span><span class="p">,</span>   <span class="mf">17.5</span><span class="p">,</span>   <span class="mf">17.1</span><span class="p">,</span>   <span class="mf">16.1</span><span class="p">,</span>   <span class="mf">15.4</span><span class="p">,</span>   <span class="mf">16.9</span><span class="p">,</span>   <span class="mf">16.8</span><span class="p">]</span>
+
+    <span class="n">line</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+    <span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_USA</span><span class="p">,</span>
+                              <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;MediumPurple&#39;</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="s2">&quot;USA Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+    <span class="n">line</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">carbon_AUS</span><span class="p">,</span>
+                              <span class="n">marker</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;LightSeaGreen&#39;</span><span class="p">,</span> <span class="n">symbol</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">),</span>
+                              <span class="n">name</span><span class="o">=</span><span class="s2">&quot;AUS Carbon Emissions (per capita)&quot;</span><span class="p">))</span>
+
+    <span class="n">line</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Carbon Emissions since 1980 (per capita)&quot;</span><span class="p">,</span>
+        <span class="n">xaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Year&quot;</span><span class="p">,</span>
+        <span class="n">yaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Annual Emissions in Tons (per capita)&quot;</span><span class="p">,</span>
+        <span class="n">plot_bgcolor</span> <span class="o">=</span> <span class="s1">&#39;DarkGrey&#39;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">1600</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">line</span>
+
+
+<span class="n">carbonLineCard</span> <span class="o">=</span>  <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                  <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Carbon Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                  <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                  <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Carbon Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getCarbonLineChart</span><span class="p">())</span>
+                                <span class="p">])</span>
+                  <span class="p">],</span>
+                  <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                  <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                      <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                      <span class="p">}</span>
+                <span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><label for="__tabbed_1_4">animalPieCard</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getAnimalPieChart</span><span class="p">():</span>
+    <span class="n">animals</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chicken&#39;</span><span class="p">,</span> <span class="s1">&#39;Buffalo&#39;</span><span class="p">,</span> <span class="s1">&#39;Octopus&#39;</span><span class="p">,</span> <span class="s1">&#39;Duck&#39;</span><span class="p">,</span> <span class="s1">&#39;Lion&#39;</span><span class="p">,</span> <span class="s1">&#39;Horse&#39;</span><span class="p">,</span> <span class="s1">&#39;Pig&#39;</span><span class="p">]</span>
+    <span class="n">counts</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+    <span class="n">pie</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span>
+                <span class="n">names</span><span class="o">=</span><span class="n">animals</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;The Animals of Old McDonald&#39;s Farm&quot;</span><span class="p">,</span>
+                <span class="n">hole</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                <span class="p">)</span>
+
+    <span class="n">pie</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+                      <span class="n">textinfo</span><span class="o">=</span><span class="s1">&#39;label+percent&#39;</span><span class="p">,</span>
+                      <span class="n">opacity</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                      <span class="n">pull</span><span class="o">=</span><span class="p">[</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span>
+                      <span class="p">)</span>
+    <span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">pie</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pie</span>
+
+
+<span class="n">animalPieCard</span> <span class="o">=</span>  <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                  <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Animal Pie Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                  <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                  <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Animal Pie Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getAnimalPieChart</span><span class="p">())</span>
+                                <span class="p">])</span>
+                  <span class="p">],</span>
+                  <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                  <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                      <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                      <span class="p">}</span>
+                <span class="p">)</span>
+</code></pre></div>
+</div>
+<input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><label for="__tabbed_1_5">legoScatterCard</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">getLegoScatterChart</span><span class="p">():</span>
+    <span class="n">rep_gunship</span> <span class="o">=</span> <span class="p">[</span><span class="mf">349.99</span><span class="p">,</span> <span class="mi">3292</span><span class="p">,</span> <span class="mi">2275</span><span class="p">];</span> <span class="n">light_cruiser</span> <span class="o">=</span> <span class="p">[</span><span class="mf">159.99</span><span class="p">,</span> <span class="mi">1336</span><span class="p">,</span> <span class="mi">1040</span><span class="p">]</span>
+    <span class="n">bad_batch_shuttle</span> <span class="o">=</span> <span class="p">[</span><span class="mf">99.99</span><span class="p">,</span> <span class="mi">969</span><span class="p">,</span> <span class="mi">650</span><span class="p">];</span> <span class="n">meditation_chamber</span> <span class="o">=</span> <span class="p">[</span><span class="mf">69.99</span><span class="p">,</span> <span class="mi">663</span><span class="p">,</span> <span class="mi">455</span><span class="p">]</span>
+    <span class="n">imperial_maurader</span> <span class="o">=</span> <span class="p">[</span><span class="mf">39.99</span><span class="p">,</span> <span class="mi">478</span><span class="p">,</span> <span class="mi">260</span><span class="p">];</span> <span class="n">mandalorian_forge</span> <span class="o">=</span> <span class="p">[</span><span class="mf">29.99</span><span class="p">,</span> <span class="mi">258</span><span class="p">,</span> <span class="mi">195</span><span class="p">]</span>
+    <span class="n">a_wing</span> <span class="o">=</span> <span class="p">[</span><span class="mf">199.99</span><span class="p">,</span> <span class="mi">1672</span><span class="p">,</span> <span class="mi">1300</span><span class="p">];</span> <span class="n">razor_crest</span> <span class="o">=</span> <span class="p">[</span><span class="mf">129.99</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">845</span><span class="p">]</span>
+
+    <span class="n">sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">rep_gunship</span><span class="p">,</span> <span class="n">light_cruiser</span><span class="p">,</span> <span class="n">bad_batch_shuttle</span><span class="p">,</span> <span class="n">meditation_chamber</span><span class="p">,</span> <span class="n">imperial_maurader</span><span class="p">,</span> <span class="n">mandalorian_forge</span><span class="p">,</span> <span class="n">a_wing</span><span class="p">,</span> <span class="n">razor_crest</span><span class="p">]</span>
+
+    <span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+    <span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">sets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sets</span><span class="p">))]</span>
+
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">price</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pieces</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">points</span><span class="p">,</span> <span class="n">trendline</span><span class="o">=</span><span class="s2">&quot;ols&quot;</span><span class="p">)</span>
+    <span class="n">scatter</span><span class="o">.</span><span class="n">update_coloraxes</span><span class="p">(</span><span class="n">colorbar_title</span><span class="o">=</span><span class="s2">&quot;VIP Points&quot;</span><span class="p">)</span>
+
+    <span class="n">scatter</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+      <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Lego Star Wars Sets (2021)&quot;</span><span class="p">,</span>
+      <span class="n">xaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Price (USD)&quot;</span><span class="p">,</span>
+      <span class="n">yaxis_title</span> <span class="o">=</span> <span class="s2">&quot;Total Piece Count&quot;</span><span class="p">,</span>
+      <span class="n">width</span><span class="o">=</span><span class="mi">1000</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">scatter</span>
+
+
+<span class="n">legoScatterCard</span> <span class="o">=</span>  <span class="n">dbc</span><span class="o">.</span><span class="n">Card</span><span class="p">([</span>
+                    <span class="n">dbc</span><span class="o">.</span><span class="n">CardBody</span><span class="p">([</span>
+                                  <span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="s2">&quot;Lego Scatter Chart&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-title&#39;</span><span class="p">),</span>
+                                  <span class="n">html</span><span class="o">.</span><span class="n">P</span><span class="p">(</span><span class="s2">&quot;This is an example graph displaying some statistics&quot;</span><span class="p">,</span> <span class="n">className</span><span class="o">=</span><span class="s1">&#39;card-body&#39;</span><span class="p">),</span>  
+                                  <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;Lego Chart&#39;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">getLegoScatterChart</span><span class="p">())</span>
+                                <span class="p">])</span>
+                  <span class="p">],</span>
+                  <span class="n">outline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="c1"># Options include: primary, secondary, info, success, warning, danger, light, dark  </span>
+                  <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                      <span class="s2">&quot;width&quot;</span><span class="p">:</span><span class="s2">&quot;55rem&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span><span class="p">,</span>
+                      <span class="s2">&quot;margin-bottom&quot;</span><span class="p">:</span><span class="s2">&quot;1rem&quot;</span>
+                      <span class="p">}</span>
+                <span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+<p>There we go! Now we have five variables we can use:</p>
+<p><code>titleCard</code>, <code>animalBarCard</code>, <code>carbonLineCard</code>, <code>animalPieCard</code>, <code>legoScatterCard</code>.</p>
+<p>Let's see what we can do using them!</p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="dbcrow">dbc.Row()<a class="headerlink" href="#dbcrow" title="Permanent link">&para;</a></h3>
+<p>The function <code>dbc.Row()</code> allows for the creation of rows, enabling horizontal arrangement of elements.</p>
+<p>For example, we can create two rows: one to hold our title, another to hold two charts.</p>
+<p><div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">titleCard</span><span class="p">,</span>
+           <span class="p">],</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+   <span class="p">),</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">animalBarCard</span><span class="p">,</span>
+            <span class="n">carbonLineCard</span>
+           <span class="p">],</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>  
+</code></pre></div>
+<center> <img alt="Row1" src="../../assets/chap1-4/04_row1.jpg" width="800" /> </center></p>
+<p>&nbsp; &nbsp;</p>
+<p>Woah, that looks pretty good!</p>
+<p>In order to adjust the elements of rows, we can use the <code>justify</code> argument.
+Possible options include: <code>start</code>, <code>center</code>, <code>end</code>, <code>between</code>, and <code>around</code>. For example, here we'll
+use <code>center</code> for the title card and <code>around</code> for the body cards.</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">titleCard</span><span class="p">,</span>
+           <span class="p">],</span>
+           <span class="n">justify</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+   <span class="p">),</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">animalBarCard</span><span class="p">,</span>
+            <span class="n">carbonLineCard</span>
+           <span class="p">],</span>
+           <span class="n">justify</span> <span class="o">=</span> <span class="s2">&quot;around&quot;</span><span class="p">,</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span><span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Row2" src="../../assets/chap1-4/04_row2.jpg" width="800" /> </center></p>
+<p>Alright! That looks pretty good so far! Now, let's take a look at adding columns...</p>
+<p>&nbsp; &nbsp;</p>
+<h3 id="dbccol">dbc.Col()<a class="headerlink" href="#dbccol" title="Permanent link">&para;</a></h3>
+<p>Let's say we want to add our Pie chart underneath our "Carbon Chart". In order to do this,
+we can simply use <code>dbc.Col</code>. To begin, we wrap our "Carbon Chart" in a column and
+include our Pie chart as part of that column:</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">titleCard</span><span class="p">,</span>
+           <span class="p">],</span>
+           <span class="n">justify</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+   <span class="p">),</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">animalBarCard</span><span class="p">,</span>
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                     <span class="n">carbonLineCard</span><span class="p">,</span>
+                     <span class="n">animalPieCard</span>
+                    <span class="p">])</span>
+           <span class="p">],</span>
+           <span class="n">justify</span> <span class="o">=</span> <span class="s2">&quot;around&quot;</span><span class="p">,</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span><span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Col1" src="../../assets/chap1-4/04_col1.jpg" width="800" /> </center></p>
+<p>As seen, the row automatically expands in length in order to accommodate for the column's
+vertical height. In order to adjust the column's width, we can use the <code>width</code> argument.
+This is a value that <strong>ranges between 0 and 12</strong>.</p>
+<p>As a result, <code>width=4</code> would lead to a column approximately &#8531; of the width of its parent element.
+However, we will deal with this keyword and implement it into our dashboard in future chapters!</p>
+<p>For now, we can create another column to store our Lego Scatter Plot.</p>
+<div class="highlight"><pre><span></span><code><span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">titleCard</span><span class="p">,</span>
+           <span class="p">],</span>
+           <span class="n">justify</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+   <span class="p">),</span>
+   <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span>
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                     <span class="n">animalBarCard</span><span class="p">,</span>
+                     <span class="n">legoScatterCard</span><span class="p">,</span>
+                    <span class="p">]),</span>
+            <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+                     <span class="n">carbonLineCard</span><span class="p">,</span>
+                     <span class="n">animalPieCard</span>
+                    <span class="p">])</span>
+           <span class="p">],</span>
+           <span class="n">justify</span> <span class="o">=</span> <span class="s2">&quot;around&quot;</span><span class="p">,</span>
+           <span class="n">style</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="s2">&quot;margin-left&quot;</span><span class="p">:</span> <span class="s2">&quot;0.5rem&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;margin-right&quot;</span><span class="p">:</span><span class="s2">&quot;0.5rem&quot;</span>
+           <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;external&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><center> <img alt="Col2" src="../../assets/chap1-4/04_col2.jpg" width="800" /> </center></p>
+<p>Our dashboard already looks quite stunning. All this, in just four quick chapters 🤩😄.</p>
+<p>Next up, a little more tidying...</p>
+<p>&nbsp; &nbsp;</p>
+<blockquote>
+<p>NOTE: For more information on rows and columns, feel free to check out:
+<a href="https://dash-bootstrap-components.opensource.faculty.ai/docs/components/layout/">dbc.Layout()</a></p>
+</blockquote>
+</details>
+<p>As if on cue, we hear a voice, <em>"Howdy' there, you fellas lost?”</em></p>
+<p>Quickly turning around, we see the strangest individual: a horse in a star-studded hat...</p>
+<p>&nbsp; &nbsp;</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>All code segments from this chapter can be found in this
+<a href="https://colab.research.google.com/drive/1RRirZeUi_zSBEDS9lDJw1dsxth_V0f-9#scrollTo=bgzFFMkaMm-m">Colab Notebook</a>.
+Feel free to follow along!&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Everything we've installed so far (prerequistes for next section):
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">pyTigerGraph</span>
+<span class="kn">import</span> <span class="nn">pyTigerGraph</span> <span class="k">as</span> <span class="nn">tg</span>
+
+<span class="n">TG_SUBDOMAIN</span> <span class="o">=</span> <span class="s1">&#39;healthcare-dash&#39;</span>
+<span class="n">TG_HOST</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span> <span class="o">+</span> <span class="n">TG_SUBDOMAIN</span> <span class="o">+</span> <span class="s2">&quot;.i.tgcloud.io&quot;</span> <span class="c1"># GraphStudio Link</span>
+
+<span class="n">TG_USERNAME</span> <span class="o">=</span> <span class="s2">&quot;tigergraph&quot;</span> <span class="c1"># This should remain the same...</span>
+<span class="n">TG_PASSWORD</span> <span class="o">=</span> <span class="s2">&quot;tigergraph&quot;</span> <span class="c1"># Shh, it&#39;s our password!</span>
+<span class="n">TG_GRAPHNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGraph&quot;</span> <span class="c1"># The name of the graph</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">tg</span><span class="o">.</span><span class="n">TigerGraphConnection</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">TG_HOST</span><span class="p">,</span> <span class="n">graphname</span><span class="o">=</span><span class="n">TG_GRAPHNAME</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">TG_USERNAME</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">TG_PASSWORD</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">apiToken</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getToken</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">createSecret</span><span class="p">())</span>
+
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">jupyter</span><span class="o">-</span><span class="n">dash</span>
+
+<span class="kn">import</span> <span class="nn">dash</span>
+<span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
+<span class="kn">from</span> <span class="nn">jupyter_dash</span> <span class="kn">import</span> <span class="n">JupyterDash</span>
+
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+<span class="kn">import</span> <span class="nn">dash_core_components</span> <span class="k">as</span> <span class="nn">dcc</span>
+
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">dash</span><span class="o">-</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">components</span>
+<span class="kn">import</span> <span class="nn">dash_bootstrap_components</span> <span class="k">as</span> <span class="nn">dbc</span>
+</code></pre></div>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+                  
+                
+              
+  <footer class="tx-content__footer md-typeset">
+    <a href="https://tigergraph.com" title="TigerGraph Website">
+      <hr>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 3h2v2H5v5a2 2 0 01-2 2 2 2 0 012 2v5h2v2H5c-1.07-.27-2-.9-2-2v-4a2 2 0 00-2-2H0v-2h1a2 2 0 002-2V5a2 2 0 012-2m14 0a2 2 0 012 2v4a2 2 0 002 2h1v2h-1a2 2 0 00-2 2v4a2 2 0 01-2 2h-2v-2h2v-5a2 2 0 012-2 2 2 0 01-2-2V5h-2V3h2m-7 12a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m-4 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1m8 0a1 1 0 011 1 1 1 0 01-1 1 1 1 0 01-1-1 1 1 0 011-1z"/></svg>
+      </span>
+      <span class="twemoji">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </span>
+      <span class="twemoji tx-heart">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 20.408c-.492.308-.903.546-1.192.709-.153.086-.308.17-.463.252h-.002a.75.75 0 01-.686 0 16.709 16.709 0 01-.465-.252 31.147 31.147 0 01-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31.146 31.146 0 0114 20.408z"/></svg>
+      </span>
+      <hr>
+    </a>
+  </footer>
+
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../03_port-plotly/" title="Ch 03 - Presenting Port Plotly" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Ch 03 - Presenting Port Plotly
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../05_sheriff-styles/" title="Ch 05 - Sheriff Styles" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Ch 05 - Sheriff Styles
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 TigerGraph
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/tigergraph/ecosys" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://discord.gg/F2c9b9v" target="_blank" rel="noopener" title="discord.gg" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M297.216 243.2c0 15.616-11.52 28.416-26.112 28.416-14.336 0-26.112-12.8-26.112-28.416s11.52-28.416 26.112-28.416c14.592 0 26.112 12.8 26.112 28.416zm-119.552-28.416c-14.592 0-26.112 12.8-26.112 28.416s11.776 28.416 26.112 28.416c14.592 0 26.112-12.8 26.112-28.416.256-15.616-11.52-28.416-26.112-28.416zM448 52.736V512c-64.494-56.994-43.868-38.128-118.784-107.776l13.568 47.36H52.48C23.552 451.584 0 428.032 0 398.848V52.736C0 23.552 23.552 0 52.48 0h343.04C424.448 0 448 23.552 448 52.736zm-72.96 242.688c0-82.432-36.864-149.248-36.864-149.248-36.864-27.648-71.936-26.88-71.936-26.88l-3.584 4.096c43.52 13.312 63.744 32.512 63.744 32.512-60.811-33.329-132.244-33.335-191.232-7.424-9.472 4.352-15.104 7.424-15.104 7.424s21.248-20.224 67.328-33.536l-2.56-3.072s-35.072-.768-71.936 26.88c0 0-36.864 66.816-36.864 149.248 0 0 21.504 37.12 78.08 38.912 0 0 9.472-11.52 17.152-21.248-32.512-9.728-44.8-30.208-44.8-30.208 3.766 2.636 9.976 6.053 10.496 6.4 43.21 24.198 104.588 32.126 159.744 8.96 8.96-3.328 18.944-8.192 29.44-15.104 0 0-12.8 20.992-46.336 30.464 7.68 9.728 16.896 20.736 16.896 20.736 56.576-1.792 78.336-38.912 78.336-38.912z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.youtube.com/c/TigerGraph/videos" target="_blank" rel="noopener" title="www.youtube.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/TigerGraphDB" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.linkedin.com/company/tigergraph/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.twitch.tv/tigergraph" target="_blank" rel="noopener" title="www.twitch.tv" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M391.17,103.47H352.54v109.7h38.63ZM285,103H246.37V212.75H285ZM120.83,0,24.31,91.42V420.58H140.14V512l96.53-91.42h77.25L487.69,256V0ZM449.07,237.75l-77.22,73.12H294.61l-67.6,64v-64H140.14V36.58H449.07Z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.c3dc8c49.min.js"></script>
+      <script src="../../assets/javascripts/bundle.30071cf1.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: ["tabs", "navigation.top", "navigation.sections", "navigation.tracking", "navigation.tabs.sticky"],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.8e2cddea.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
