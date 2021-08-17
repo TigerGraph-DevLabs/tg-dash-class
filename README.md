@@ -11,7 +11,7 @@ Each tab is fleshed out below:
 - **Resources** - external resources, broken down by chapter and description
 - **Community** - connecting with the TigerGraph and Plotly communities
 
-The live link to the website can be found here: *insert link here*
+The live link to the website can be found here: https://tigergraph-devlabs.github.io/tg-dash-class/
 
 &nbsp; &nbsp;
 
