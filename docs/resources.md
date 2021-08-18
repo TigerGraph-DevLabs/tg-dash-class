@@ -10,23 +10,23 @@ All the external resources from **Quick Start/Adventure**, all in one place. ðŸ§
 
 * [TigerGraphâ€™s Cloud Portal](https://tgcloud.io/)
 * [TigerGraph Docs](https://docs.tigergraph.com/start/gsql-101/define-a-schema)
-* [YouTube GSQL 101](https://www.youtube.com/watch?v=him2Uy3Nn7Y)
+* [GSQL 101 Module (Video)](https://www.youtube.com/watch?v=him2Uy3Nn7Y)
 
 ## Ch 02 - Sailing thru' Setup Sea ðŸŒŠ
 
 * [`html.Div()`](https://dash.plotly.com/dash-html-components/div)
-* [Dash Headers](https://dash.plotly.com/dash-html-components/header),
+* [Dash Headers](https://dash.plotly.com/dash-html-components/header)
 * [Dash HTML](https://dash.plotly.com/dash-html-components)
-* [`html.B()`](https://dash.plotly.com/dash-html-components/b),
+* [`html.B()`](https://dash.plotly.com/dash-html-components/b)
 * [`html.I()`](https://dash.plotly.com/dash-html-components/i)
 
 ## Ch 03 - Presenting Port Plotly ðŸ§±
 
-* [Plotly Bar Charts](https://plotly.com/python/bar-charts/),
+* [Plotly Bar Charts](https://plotly.com/python/bar-charts/)
 * [`px.Bar()`](https://plotly.com/python-api-reference/generated/plotly.express.bar)
-* [Plotly Line Charts](https://plotly.com/python/line-charts/),
+* [Plotly Line Charts](https://plotly.com/python/line-charts/)
 * [`px.line()`](https://plotly.com/python-api-reference/generated/plotly.express.line)
-* [Plotly Pie Charts](https://plotly.com/python/pie-charts/),
+* [Plotly Pie Charts](https://plotly.com/python/pie-charts/)
 * [`px.Pie()`](https://plotly.com/python-api-reference/generated/plotly.express.pie)
 * [Plotly Trendlines](https://plotly.com/python/linear-fits/)
 * [Plotly Scatter](https://plotly.com/python/line-and-scatter/)
@@ -66,7 +66,7 @@ All the external resources from **Quick Start/Adventure**, all in one place. ðŸ§
 
 ## Ch 10 - Southern Sidebars ðŸŒµ
 
-* [Dash Sidebar Video](https://www.youtube.com/watch?v=ln8dyS2y4Nc)
+* [Dash Sidebar (Video)](https://www.youtube.com/watch?v=ln8dyS2y4Nc)
 
 ## Ch 11 - Elysium of Elements ðŸŒˆ
 
@@ -83,5 +83,13 @@ All the external resources from **Quick Start/Adventure**, all in one place. ðŸ§
 * [Dash Deployment](https://dash.plotly.com/deployment)
 * [Heroku Guide 1](https://towardsdatascience.com/deploying-your-dash-app-to-heroku-the-magical-guide-39bd6a0c586c)
 * [Heroku Guide 2](https://towardsdatascience.com/how-to-deploy-your-dash-app-with-heroku-a4ecd25a6205)
+
+## Misc - Additional Resources
+
+* [TigerGraph + Plotly (Video)](https://www.youtube.com/watch?v=n82PhhWQ0uY)
+* [COVID-19 in South Korea (Video)](https://www.youtube.com/watch?v=s8d5xFrzm8g)
+* [Movie Reviews Starter Kit (Video)](https://www.youtube.com/watch?v=wHUr3NLw_wg)
+* [New York's Energy/Weather (Video)](https://www.youtube.com/watch?v=otMVqqsMYEg)
+* [Fraud Detection Dashboard Blog Post](https://www.tigergraph.com/blogs/fraud-money-laundering/building-a-custom-fraud-detection-dashboard/)
 
 &nbsp; &nbsp;
