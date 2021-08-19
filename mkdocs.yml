@@ -110,6 +110,11 @@ extra:
     - icon: fontawesome/brands/twitch
       link: https://www.twitch.tv/tigergraph
 
+extra:
+  analytics:
+    provider: google
+    property: G-7SRCFSQWQ7
+
 extra_css:
   - stylesheets/extra.css
 
